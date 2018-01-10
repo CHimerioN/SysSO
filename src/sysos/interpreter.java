@@ -289,7 +289,9 @@ void exe()
 		pr.counter+=roz.length()+1;
 		String roz2=m.readUntilSpace(pr.counter);
 		pr.counter+=roz2.length()+1;
-		Potoki.pipe();
+		Potoki.pipe();//tu powinna się znaleźć w argumentach funkcji zmienna procesu dla którego będzie przebiegać komunikacja 
+		//proces ten musi mieć potomka czyli gdzieś wcześniej trzeba sprawdzić to if(aktualnyproces.next==null)to utwórz dla 
+		//niego potomka else (a jeśli potomek istnieje) przejść do funkcji pipe()
 	} break;
 	case "SC":
 	{
