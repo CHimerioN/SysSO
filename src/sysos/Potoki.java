@@ -22,7 +22,7 @@ public class Potoki {
     int open = 0;//czy potok jest wykorzystywany przez potok
 
 //funkcje odczytu z potoku
-    public int read(process p) {
+   static public int read(process p) {
         if (myQueue.peek() == null) {
             return 0;
         } else {
@@ -37,7 +37,7 @@ public class Potoki {
     }
 
     //funcja zapisu do potoku, zwraca 0 dla błędu 1 dla zapisania wszystkich info,2 dla przepałnienia 
-    public int write(process p) {
+   static public int write(process p) {
        Character znak ;//buffor znaku
         if (qfreespace == 0) {
             return 0;
@@ -55,7 +55,7 @@ public class Potoki {
     }
 
     //ta funkcja chyba powinna być w klasie procesu
-    void pipe(plik1 plik)//służy do utworzenia potoku
+   static void pipe(plik1 plik)//służy do utworzenia potoku
     {
         //proces znajduje wolny deskryptor inicjalizuje swoje indexy deskryptora;
         int index = plik.finddes();//od obiektu file
