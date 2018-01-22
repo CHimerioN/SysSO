@@ -267,8 +267,17 @@ public class Memory {
 	}
 
 	public void printMemory() { // wyswietla zawartosc pamieci
-		for (int i = 0; i < 128; i++) {
-			System.out.println(i + ": " + ram[i]);
+		for (int i = 0; i < 8; i++) {
+			for (int j = 16 * i + 0; j < 16 * i + 16; j++) {
+				System.out.print(j + "\t");
+			}
+			System.out.print("\n");
+
+			for (int j = 16 * i + 0; j < 16 * i + 16; j++) {
+				System.out.print(ram[j]+ "\t");
+			}
+			System.out.print("\n\n");
+
 		}
 	}
 
