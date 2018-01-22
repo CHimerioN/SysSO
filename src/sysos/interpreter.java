@@ -3,8 +3,8 @@ package sysos;
 import sysos.process_manager.process;
 
 public class interpreter {
-	public Memory m = new Memory();
-	public FileSystem f = new FileSystem();
+	public Memory m;
+	public FileSystem f;
 	public schedulerr s = new schedulerr();
 	interpreter(Memory m, FileSystem f)
 	{
@@ -17,6 +17,7 @@ void exe()
 	Main.S.check(pr, Main.T);
 	String roz;
 	roz=m.readUntilSpace(pr.counter);
+	System.out.println(pr.counter);
 	pr.counter+=roz.length()+1;
 	switch(roz)
 	{
@@ -340,6 +341,32 @@ void exe()
 	{
 		pr.kill(pr.PID);
 	}
+	case "MS" :
+	{
+		roz="";
+		roz=m.readUntilSpace(pr.counter);
+		pr.counter+=roz.length()+1;
+		String rez=m.readUntilSpace(pr.counter);
+		pr.counter+=rez.length()+1;
+		if(rez.equals("R1"))
+			m.writeMemory(Integer.valueOf(roz), Integer.toString(pr.A).charAt(0));
+		if(rez.equals("R2"))
+			m.writeMemory(Integer.valueOf(roz), Integer.toString(pr.B).charAt(0));
+		if(rez.equals("R3"))
+			m.writeMemory(Integer.valueOf(roz), Integer.toString(pr.C).charAt(0));
+		if(rez.equals("R4"))
+			m.writeMemory(Integer.valueOf(roz), Integer.toString(pr.D).charAt(0));
+		if(rez.equals("MSG"))
+		{
+			String msg = new String();
+			msg=pr.IO.toString();
+			for(int i=0;i<msg.length();i++)
+			m.writeMemory(Integer.valueOf(roz)+i, msg.charAt(i));
+		}
+		else
+		for(int i=0;i<rez.length();i++)
+		m.writeMemory(Integer.valueOf(roz)+i, rez.charAt(i));
+	} break;
 	}
 	pr.cpu+=50;
 }
