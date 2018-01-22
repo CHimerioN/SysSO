@@ -5,7 +5,6 @@ import sysos.process_manager.process;
 public class interpreter {
 	public Memory m;
 	public FileSystem f;
-	public schedulerr s = new schedulerr();
 	interpreter(Memory m, FileSystem f)
 	{
 		this.m=m;
