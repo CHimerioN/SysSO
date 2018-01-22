@@ -2,11 +2,11 @@ package sysos;
 
 import java.util.ArrayList;
 
-class File {
+class File_ {
 	public String name;
 	public int blockIndex;
 	
-	public File(String name_, int blockIndex_){
+	public File_(String name_, int blockIndex_){
 		name = name_;
 		blockIndex = blockIndex_;
 	}
@@ -14,7 +14,7 @@ class File {
 
 
 class Catalog {
-	ArrayList<File> catalog;
+	ArrayList<File_> catalog;
 	
 	public Catalog(){
 		catalog = new ArrayList<>();
@@ -39,7 +39,7 @@ public class FileSystem {
 	}
 
 	public void createFile(String name) {
-		for (File f : root.catalog) {
+		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
 				System.out.println("Plik o podanej nazwie juz istnieje!");
 				return;
@@ -47,7 +47,7 @@ public class FileSystem {
 		}
 		int tempIndex = assignIndex();
 		if (tempIndex != -1) {
-			File f = new File(name, tempIndex);
+			File_ f = new File_(name, tempIndex);
 			root.catalog.add(f);
 		} else {
 			System.out.println("Brak wolnego bloku!");
@@ -56,7 +56,7 @@ public class FileSystem {
 	}
 
 	public void writeFile(String name, String content) {
-		for (File f : root.catalog) {
+		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
 				int neededBlocks = content.length() / nrOfBlocks + 1;
 				int index = 0;
@@ -86,7 +86,7 @@ public class FileSystem {
 	}
 
 	public void readFile(String name) {
-		for (File f : root.catalog) {
+		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
 				String data = "";
 				for (int i = f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
@@ -107,7 +107,7 @@ public class FileSystem {
 	}
 
 	public void deleteFile(String name) {
-		for (File f : root.catalog) {
+		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
 				for (int i = f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
 					if (disc[i] != emptySign) {
@@ -128,13 +128,13 @@ public class FileSystem {
 	}
 
 	public void listAllFiles() {
-		for(File f : root.catalog) {
+		for(File_ f : root.catalog) {
 			System.out.println(f.name + " " + f.blockIndex);
 		}
 	}
 	
 	public void printFileData(String name) {
-		for (File f : root.catalog) {
+		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
 				System.out.println(f.name + " " + f.blockIndex);
 				return;
