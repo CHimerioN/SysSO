@@ -2,7 +2,9 @@ package sysos;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
+import java.io.File;
 
 import sysos.process_manager.process;
 
@@ -41,7 +43,7 @@ public class Main {
 					System.out.println("TASKLIST: sprawdzanie listy procesow; ");
 					System.out.println("TASKKILL: nazwa_procesu: zabijanie procesu; ");
 					System.out.println("GO: kolejny krok wykonywanego procesu; ");
-					System.out.println("START nazwa_procesu grupa_procesu nazwa_pliku: stworzenie procesu; ");
+					System.out.println("START nazwa_procesu dodatkowo_rezerwowane_miejsce nazwa_pliku: stworzenie procesu; ");
 					System.out.println("exit: wiadomka; ");
 
 					
@@ -178,17 +180,30 @@ public class Main {
 					 tab[2] rezerwoe miejsce
 					 tab[3] nazwa pliku
 					 */
-					FileInputStream fis = null;
+//					FileInputStream fis = null;
+//					try {
+//						fis = new FileInputStream(tab[3]);
+//					} catch (FileNotFoundException e) {
+//						e.printStackTrace();
+//					}
+					//tworzenie procesu 
+					String kod = new String();
+					Scanner scan;
 					try {
-						fis = new FileInputStream(tab[3]);
+						scan = new Scanner(new File(tab[3]));
+						kod = scan.nextLine();
+						scan.close();
 					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					//tworzenie procesu 
+					int size = Integer.parseInt(tab[2]);
+		
+					
 					
 					T.INIT.fork(tab[1]);
 					int x = T.find_name(tab[1]);
-					T.find(x).exec(fis.toString(), "", Integer.valueOf(tab[2]));
+					T.find(x).exec(kod, tab[3], kod.length()+size);
 					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
 					
 //					//stary sposob:
