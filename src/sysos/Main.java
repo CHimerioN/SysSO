@@ -163,7 +163,7 @@ public class Main {
 					i.exe();
 					//stan procesu po wykonaniu jednego kroku 
 					System.out.println("kolejny krok w procesie");
-				
+					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
 					
 				}
 				else
@@ -175,7 +175,7 @@ public class Main {
 				if(tab.length==4) {
 					/*
 					 tab[1] nazwa procesu
-					 tab[2] grupa procesu / rezerwoe miejsce
+					 tab[2] rezerwoe miejsce
 					 tab[3] nazwa pliku
 					 */
 					FileInputStream fis = null;
@@ -185,9 +185,16 @@ public class Main {
 						e.printStackTrace();
 					}
 					//tworzenie procesu 
-					process p = T.new process(tab[1]);
-					p.exec(fis.toString(), "", Integer.valueOf(tab[2]));
-					System.out.println("tworzenie procesu");
+					
+					T.INIT.fork(tab[1]);
+					int x = T.find_name(tab[1]);
+					T.find(x).exec(fis.toString(), "", Integer.valueOf(tab[2]));
+					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
+					
+//					//stary sposob:
+//					process p = T.new process(tab[1]);
+//					p.exec(fis.toString(), "", Integer.valueOf(tab[2]));
+//					System.out.println("tworzenie procesu");
 				
 				}else
 					System.out.println("nieprawidlowe wywolanie komendy");
