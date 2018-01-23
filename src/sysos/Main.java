@@ -18,6 +18,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		T.init();
+		S.runningProcess=T.INIT;
 		String string;
 		Scanner in = new Scanner(System.in);
 		do {
@@ -163,7 +164,7 @@ public class Main {
 				if(tab.length==1) {
 					
 					interpreter i =new interpreter(M,F);
-					i.exe();
+
 					//stan procesu po wykonaniu jednego kroku 
 					System.out.println("kolejny krok w procesie");
 					System.out.println("Rejestry: " + S.runningProcess.A + " " + S.runningProcess.B + " " + S.runningProcess.C + " " + S.runningProcess.D);
