@@ -20,7 +20,8 @@ public class schedulerr {
 	}
 	private ArrayList<ArrayList<process>> qs = new ArrayList<ArrayList<process>>(128);
 
-	public process runningProcess = Main.T.new process("");
+	public process runningProcess = null;
+	
 	
 	public void add_to_q(process x) {
 		if(x.usrpri==null) {
@@ -32,6 +33,7 @@ public class schedulerr {
 	}
 	
 	private void divide_cpu() {
+		runningProcess.cpu /= 2;
 		for(int i=0; i<128;i++) {
 			for(int j=0;j<qs.get(i).size();j++) {
 				if(qs.get(i).get(j).cpu>0)
@@ -40,16 +42,16 @@ public class schedulerr {
 		}
 	}
 	
-	private void change_q(process x) {
-		x.usrpri=x.pri+(x.cpu/2);
-		qs.get(x.usrpri).add(x);
-		whichqs.set(x.usrpri, true);
+	private void change_q() {
+		runningProcess.usrpri=runningProcess.pri+(runningProcess.cpu/2);
+		qs.get(runningProcess.usrpri).add(runningProcess);
+		whichqs.set(runningProcess.usrpri, true);
 	}
 	
 	private void runProcess(process_manager p) {
-		ArrayList<process> ready = p.ready_processes();				//dodaje do kolejki gotowe procesy
-		for(;readyp < ready.size()-1;readyp++) {
-			add_to_q(ready.get(readyp));
+		//ArrayList<process> ready = Main.T.ready;			//dodaje do kolejki gotowe procesy
+		for(;readyp < Main.T.ready.size();readyp++) {
+			add_to_q(Main.T.ready.get(readyp));
 		}
 		
 		int i=0;
@@ -59,30 +61,29 @@ public class schedulerr {
 			if(i==127) return;
 		}
 																//ustawia pierwszy proces o najnizszym priorytecie jako running
-		process x=qs.get(i).get(0);
-		runningProcess=x;
+		runningProcess=qs.get(i).get(0);
 		runningProcess.change_process_state(ACTIVE);
 		runningProcess.Lock=false;
-		qs.get(i).remove(0);		
+		qs.get(i).remove(0);	
+		whichqs.set(i, false);
 	}
 
-	public void check(process actual, process_manager p) {
-		actual.change_process_state(READY);		
-		actual.Lock=true;
-		if(runningProcess.PID == null) {						//jesli zaden proces nie jest running wchodzi do runProcess gdzie wlacza sie proces z najnizszym priorytetem
-			runProcess(p);										//aktualny jako running
-			actual=runningProcess;
+	public void check(process_manager p) {
+		if(runningProcess == null) {						//jesli zaden proces nie jest running wchodzi do runProcess gdzie wlacza sie proces z najnizszym priorytetem			
+			runProcess(p);										
 			return;
 		}
-		if(runningProcess.PID != null) {						//running jako aktualny, 
-			runningProcess=actual;								//zmienia wartoœci cpu procesu running i odk³ada go do kolejki procesów
+		if(runningProcess != null) {						//zmienia wartoÅ›ci cpu procesu running i odkÅ‚ada go do kolejki procesÃ³w
+			runningProcess.change_process_state(READY);		
+			runningProcess.Lock=true;
 			divide_cpu();
-			change_q(runningProcess);
+			change_q();
 			runProcess(p);
 			return;
 		}
 		else {
-			actual=runningProcess;
+			runningProcess.change_process_state(READY);		
+			runningProcess.Lock=true;
 			return;
 		}
 	}
