@@ -293,20 +293,13 @@ void exe()
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
 		Main.S.runningProcess.fork(roz);
-		process p;
-		int i;
-		i=Main.T.find_name(roz);
-		p=Main.T.find(i);
-		p.exec("", "", 0);
-		p.pri=127;
 	} break;
 	case "DP":
 	{
 		roz="";
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
-		process_manager man= new process_manager(); 
-		Main.S.runningProcess.kill(man.find_name(roz));
+		Main.S.runningProcess.kill(Main.T.find_name(roz));
 	} break;
 	case "WC":
 	{
