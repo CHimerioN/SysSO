@@ -172,6 +172,21 @@ public class Main {
 					System.out.println("nieprawidlowe wywolanie komendy");
 			}
 			
+			else if(tab[0].equals("GOM")) {
+				if(tab.length == 2) {
+					for(int j=0;j < Integer.parseInt(tab[1]); j++) {
+						interpreter i =new interpreter(M,F);
+						i.exe();
+						//stan procesu po wykonaniu jednego kroku 
+						System.out.println("kolejny krok w procesie");
+						System.out.println("Rejestry: " + S.runningProcess.A + " " + S.runningProcess.B + " " + S.runningProcess.C + " " + S.runningProcess.D);
+					}
+				}
+				else {
+					System.out.println("nieprawidlowe wywolanie komendy");
+				}
+			}
+			
 			else if(tab[0].equals("START"))
 			{
 				if(tab.length==4) {
@@ -187,6 +202,7 @@ public class Main {
 //						e.printStackTrace();
 //					}
 					//tworzenie procesu 
+					
 					String kod = new String();
 					Scanner scan;
 					try {
@@ -199,8 +215,6 @@ public class Main {
 					}
 					int size = Integer.parseInt(tab[2]);
 		
-					
-					
 					T.INIT.fork(tab[1]);
 					int x = T.find_name(tab[1]);
 					S.check(T);
