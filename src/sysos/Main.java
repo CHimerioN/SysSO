@@ -43,6 +43,7 @@ public class Main {
 					System.out.println("TASKLIST: sprawdzanie listy procesow; ");
 					System.out.println("TASKKILL: nazwa_procesu: zabijanie procesu; ");
 					System.out.println("GO: kolejny krok wykonywanego procesu; ");
+					System.out.println("GOM n: n kolejnych krokow wykonywanego procesu; ");
 					System.out.println("START nazwa_procesu dodatkowo_rezerwowane_miejsce nazwa_pliku: stworzenie procesu; ");
 					System.out.println("exit: wiadomka; ");
 
