@@ -339,7 +339,7 @@ void exe()
 	case "EX":
 	{
 		Main.S.runningProcess.kill(Main.S.runningProcess.PID);
-		Main.S.runningProcess=null;
+		Main.S.runningProcess=Main.T.INIT;
 		break;
 	}
 	case "MS" :
