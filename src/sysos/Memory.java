@@ -215,7 +215,7 @@ public class Memory {
 	private void wipeSwap() { // zeruje plik wymiany i umieszcza kod bezczynnosci
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter(swap));
-			out.write("1&&&&&&&3&&&&&&0"); // tutaj umiescic kod bezczynnosci
+			out.write("JP 0            "); // tutaj umiescic kod bezczynnosci
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
