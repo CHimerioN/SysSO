@@ -9,7 +9,7 @@ import java.io.File;
 import sysos.process_manager.process;
 
 public class Main {
-	
+		
 	public static Memory M = new Memory();
 	public static process_manager T = new process_manager();
 	public static FileSystem F = new FileSystem();
@@ -203,6 +203,7 @@ public class Main {
 					
 					T.INIT.fork(tab[1]);
 					int x = T.find_name(tab[1]);
+					S.check(T);
 					T.find(x).exec(kod, tab[3], kod.length()+size);
 					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
 					
