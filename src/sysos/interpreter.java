@@ -16,7 +16,6 @@ void exe()
 	Main.S.check(Main.T);
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
-	System.out.println(Main.S.runningProcess.name);
 	Main.S.runningProcess.counter+=roz.length()+1;
 	switch(roz)
 	{
@@ -192,21 +191,26 @@ void exe()
 		roz="";
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
-		if(roz.equals("R1"))
+		String rez=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=rez.length()+1;
+		if(rez.equals("R1"))
 			if(Main.S.runningProcess.A!=0)
 				Main.S.runningProcess.counter=Integer.valueOf(roz);
-		if(roz.equals("R2"))
+		if(rez.equals("R2"))
 			if(Main.S.runningProcess.B!=0)
 				Main.S.runningProcess.counter=Integer.valueOf(roz);
-		if(roz.equals("R3"))
+		if(rez.equals("R3"))
 			if(Main.S.runningProcess.C!=0)
-			Main.S.runningProcess.counter=Integer.valueOf(roz);
-		if(roz.equals("R4"))
+				Main.S.runningProcess.counter=Integer.valueOf(roz);
+		if(rez.equals("R4"))
 			if(Main.S.runningProcess.D!=0)
 				Main.S.runningProcess.counter=Integer.valueOf(roz);
 	} break;
 	case "IC":
 	{
+		roz="";
+		roz=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=roz.length()+1;
 		if(roz.equals("R1"))
 			Main.S.runningProcess.A++;
 		if(roz.equals("R2"))
@@ -218,6 +222,9 @@ void exe()
 	} break;
 	case "DC":
 	{
+		roz="";
+		roz=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=roz.length()+1;
 		if(roz.equals("R1"))
 			Main.S.runningProcess.A--;
 		if(roz.equals("R2"))
