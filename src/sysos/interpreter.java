@@ -16,6 +16,7 @@ void exe()
 	Main.S.check(Main.T);
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
+	System.out.println(Main.S.runningProcess.name);
 	Main.S.runningProcess.counter+=roz.length()+1;
 	switch(roz)
 	{
@@ -240,13 +241,13 @@ void exe()
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
 		if(roz.equals("R1"))
-			System.out.println("Wartosc rejestru" + Main.S.runningProcess.A);
+			System.out.println("Wartosc rejestru " + Main.S.runningProcess.A);
 		if(roz.equals("R2"))
-			System.out.println("Wartosc rejestru" + Main.S.runningProcess.B);
+			System.out.println("Wartosc rejestru " + Main.S.runningProcess.B);
 		if(roz.equals("R3"))
-			System.out.println("Wartosc rejestru" + Main.S.runningProcess.C);
+			System.out.println("Wartosc rejestru " + Main.S.runningProcess.C);
 		if(roz.equals("R4"))
-			System.out.println("Wartosc rejestru" + Main.S.runningProcess.D);
+			System.out.println("Wartosc rejestru " + Main.S.runningProcess.D);
 	} break;
 	case "CF":
 	{
@@ -291,14 +292,13 @@ void exe()
 		roz="";
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
-		String ro=m.readUntilSpace(Main.S.runningProcess.counter);
-		Main.S.runningProcess.counter+=ro.length()+1;
 		Main.S.runningProcess.fork(roz);
-		process p = Main.T.new process("");
+		process p;
 		int i;
 		i=Main.T.find_name(roz);
 		p=Main.T.find(i);
-		p.exec("", "", Integer.valueOf(ro));
+		p.exec("", "", 0);
+		p.pri=127;
 	} break;
 	case "DP":
 	{
