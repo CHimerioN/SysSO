@@ -165,7 +165,7 @@ public class Main {
 					i.exe();
 					//stan procesu po wykonaniu jednego kroku 
 					System.out.println("kolejny krok w procesie");
-					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
+					System.out.println("Rejestry: " + S.runningProcess.A + " " + S.runningProcess.B + " " + S.runningProcess.C + " " + S.runningProcess.D);
 					
 				}
 				else
@@ -205,7 +205,7 @@ public class Main {
 					int x = T.find_name(tab[1]);
 					S.check(T);
 					T.find(x).exec(kod, tab[3], kod.length()+size);
-					System.out.println("Rejestry: " + T.a + " " + T.b + " " + T.c + " " + T.d);
+					System.out.println("Rejestry: " + S.runningProcess.A + " " + S.runningProcess.B + " " + S.runningProcess.C + " " + S.runningProcess.D);
 					
 //					//stary sposob:
 //					process p = T.new process(tab[1]);
