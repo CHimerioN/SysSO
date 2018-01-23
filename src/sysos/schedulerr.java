@@ -20,7 +20,7 @@ public class schedulerr {
 	}
 	private ArrayList<ArrayList<process>> qs = new ArrayList<ArrayList<process>>(128);
 
-	public process runningProcess = Main.T.INIT;
+	public process runningProcess = null;
 	
 	
 	public void add_to_q(process x) {
@@ -69,22 +69,17 @@ public class schedulerr {
 	}
 
 	public void check(process_manager p) {
-		if(runningProcess == null) {						//jesli zaden proces nie jest running wchodzi do runProcess gdzie wlacza sie proces z najnizszym priorytetem			
-			runProcess(p);										
-			return;
-		}
-		if(runningProcess != null) {						//zmienia wartości cpu procesu running i odkłada go do kolejki procesów
-			runningProcess.change_process_state(READY);		
-			runningProcess.Lock=true;
-			divide_cpu();
-			change_q();
-			runProcess(p);
-			return;
-		}
-		else {
-			runningProcess.change_process_state(READY);		
-			runningProcess.Lock=true;
-			return;
-		}
+        if(runningProcess == null || runningProcess.PID==0) {                        //jesli zaden proces nie jest running wchodzi do runProcess gdzie wlacza sie proces z najnizszym priorytetem
+            runProcess(p);
+            return;
+        }
+        if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoĹ›ci cpu procesu running i odkĹ‚ada go do kolejki procesĂłw
+            runningProcess.change_process_state(READY);
+            runningProcess.Lock=true;
+            divide_cpu();
+            change_q();
+            runProcess(p);
+            return;
+        }
 	}
 }
