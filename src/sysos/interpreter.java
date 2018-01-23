@@ -12,11 +12,11 @@ public class interpreter {
 	}
 void exe()
 {
-	process pr=Main.T.new process("");
+	process pr = Main.T.find(Main.OBECNY_PROCES);
 	Main.S.check(pr, Main.T);
 	String roz;
 	roz=m.readUntilSpace(pr.counter);
-	System.out.println(pr.counter);
+	System.out.println(pr.name);
 	pr.counter+=roz.length()+1;
 	switch(roz)
 	{
