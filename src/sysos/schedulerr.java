@@ -43,7 +43,11 @@ public class schedulerr {
 	}
 	
 	private void change_q() {
-		runningProcess.usrpri=runningProcess.pri+(runningProcess.cpu/2);
+		if((runningProcess.pri+(runningProcess.cpu/2))<127){
+			runningProcess.usrpri=runningProcess.pri+(runningProcess.cpu/2);
+		} else {
+			runningProcess.usrpri=126;
+		}
 		qs.get(runningProcess.usrpri).add(runningProcess);
 		whichqs.set(runningProcess.usrpri, true);
 	}
