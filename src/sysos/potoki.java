@@ -18,7 +18,7 @@ public class potoki {
             return -1;//zwracam w przypadku zamkniętego procesu z powodu braku komunikacji
             }
 		int index = p.des;
-		potoki ref = plik1.tab[index];
+		potoki ref = Main.P.tab[index];
 		if (ref.myQueue.peek() == null) {
 			
 			return 0;
@@ -30,7 +30,6 @@ public class potoki {
 			}
 			return 1;
 		}
-
 	}
 
 	// funcja zapisu do potoku, zwraca 0 dla bĹ‚Ä™du 1 dla zapisania wszystkich
@@ -38,7 +37,7 @@ public class potoki {
 	static public int write(process p) {
 		Character znak;// buffor znaku
 		int index = p.des;
-		potoki ref = plik1.tab[index];
+		potoki ref = Main.P.tab[index];
 		if (ref.qfreespace == 0) {
 			return 0;
 		} else {
@@ -61,13 +60,14 @@ public class potoki {
 	static void pipe(process p)// sĹ‚uĹĽy do utworzenia potoku
 	{
 		// proces znajduje wolny deskryptor inicjalizuje swoje indexy deskryptora;
-		int index = plik1.finddes();// od obiektu file
+		int index = Main.P.finddes();// od obiektu file
 		if (index == -1) {
 			System.out.println("BĹ‚Ä…d deskryptora");
 		} else {
-			plik1.tab[index].open = 1;
+			Main.P.tab[index].open = 1;
 			p.des = index;
 			p.next.des = index;
+			p.next.Lock=true;
 		}
 	}
 

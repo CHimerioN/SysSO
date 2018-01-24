@@ -3,10 +3,11 @@ package sysos;
 import sysos.process_manager.process;
 
 public class plik1 {
-    static potoki[] tab=new potoki[16];
+	public potoki a=new potoki();
+    public potoki[] tab= {a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a};
     static int rozmiar=16;
     
-       static public int finddes()
+       public int finddes()
        {
            int number=-1;
            for(int i=0;i<16;i++)
@@ -15,12 +16,13 @@ public class plik1 {
                {
                    tab[i].open=1;
                    number=i;
+                   break;
                }
            }        
            return number;
        }
        
-      static void closedes(process p)
+      public void closedes(process p)
        {
            int numb=p.des;
            if(tab[numb].readbytes==tab[numb].writebytes)

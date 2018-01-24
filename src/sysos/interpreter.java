@@ -16,12 +16,13 @@ public class interpreter {
 	}
 void exe()
 {
-	
-	Main.S.check(Main.T);
+	if(Main.S.x==2){ Main.S.check(Main.T); Main.S.x=0; }
+	Main.S.x++;
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
-	System.out.println(Main.S.runningProcess.name);
 	Main.S.runningProcess.counter+=roz.length()+1;
+	System.out.println(Main.S.runningProcess.name);
+	System.out.println(roz);
 	switch(roz)
 	{
 	case "AD":
@@ -297,12 +298,10 @@ void exe()
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
 		Main.S.runningProcess.fork(roz);
-		System.out.println(roz);
 		String naz=roz;
 		roz="";
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
-		System.out.println(roz);
 		Scanner in=null;
 		try {
 			in = new Scanner(new FileReader(roz)).useDelimiter("\\n");
@@ -316,9 +315,7 @@ void exe()
 		in.close();
 		String out= sb.toString();
 		int x = Main.T.find_name(naz);
-		
-		Main.S.check(Main.T);
-		Main.T.find(x).exec(out, roz+"txt", out.length()); //////////////////////////////////
+		Main.T.find(x).exec(out, roz+"txt", out.length());
 	} break;
 	case "DP":
 	{
@@ -347,20 +344,25 @@ void exe()
 	} break;
 	case "CC":
 	{
-		roz="";
-		roz=m.readUntilSpace(Main.S.runningProcess.counter);
-		Main.S.runningProcess.counter+=roz.length()+1;
 		if(Main.S.runningProcess.next.equals(null))
 			Main.S.runningProcess.fork(roz);
 		potoki.pipe(Main.S.runningProcess);
+		System.out.println(Main.S.runningProcess.next.Lock);
 	} break;
 	case "SC":
 	{
-		potoki.write(Main.S.runningProcess);
+		int a=potoki.write(Main.S.runningProcess);
+		if(a==0)
+		System.out.println("Nie komunikatu do wyslania");
 	} break;
 	case "RC":
 	{
-		potoki.read(Main.S.runningProcess.next);
+		int a=potoki.read(Main.S.runningProcess);
+		if(a==-1)
+		System.out.println("Komunikat nie zostal jeszcze wyslany");
+		if(a==0)
+		System.out.println("Pusty potok");
+		System.out.println(Main.S.runningProcess.Lock);
 	} break;
 	case "EX":
 	{
