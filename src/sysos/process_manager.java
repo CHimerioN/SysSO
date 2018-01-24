@@ -103,6 +103,7 @@ public class process_manager {
         INIT.previous = null;
         INIT.next = null;
         INIT.pri = 127;
+        INIT.usrpri=127;
         INIT.cpu = 0;
         INIT.counter=0;
         INIT.swapFileBeginning = 0;
@@ -209,6 +210,7 @@ public class process_manager {
             p.counter = this.counter;
             p.cpu = 0;
             p.pri = i;
+            p.usrpri=i;
             p.PPID = this.PID;
             p.father = this;
             //rodzina
