@@ -124,7 +124,6 @@ public class Main {
 			else if(tab[0].equals("LS"))
 			{
 				if(tab.length==1) {
-					System.out.println("Pliki");
 					F.listAllFiles();					
 				}else
 					System.out.println("nieprawidlowe wywolanie komendy");
@@ -198,7 +197,7 @@ public class Main {
 						int size = Integer.parseInt(tab[2]);
 						T.INIT.fork(tab[1]);
 						int x = T.find_name(tab[1]);
-						S.check(T);
+						//S.check(T);
 						T.find(x).exec(kod, tab[3], kod.length()+size);
 						scan.close();
 					} catch (FileNotFoundException e) {
