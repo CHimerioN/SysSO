@@ -201,7 +201,7 @@ public class process_manager {
             //if (reserve_m(this.name, this.name, "") != false) {
             p.s = status.READY;
             Random gen = new Random();
-            int i = gen.nextInt(127) + 1;
+            int i = gen.nextInt(127);
             p.A = this.A;
             p.B = this.B;
             p.C = this.C;
