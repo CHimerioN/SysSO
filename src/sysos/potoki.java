@@ -14,14 +14,17 @@ public class potoki {
 
 	// funkcje odczytu z potoku
 	static public int read(process p) {
-		int index = p.next.des;
+            if(p.Lock==true){         
+            return -1;//zwracam w przypadku zamkniętego procesu z powodu braku komunikacji
+            }
+		int index = p.des;
 		potoki ref = plik1.tab[index];
 		if (ref.myQueue.peek() == null) {
 			
 			return 0;
 		} else {
 			while (ref.myQueue.peek() != null) {
-				p.next.IO.offer(ref.myQueue.poll());
+				p.IO.offer(ref.myQueue.poll());
 				ref.readbytes++;
 				ref.qfreespace++;
 			}
@@ -44,11 +47,12 @@ public class potoki {
 				ref.myQueue.offer(znak);
 				ref.qfreespace--;
 				if (ref.qfreespace == 0) {// zapeĹ‚nienie caĹ‚ego potoku tutaj powinna byÄ‡ synchronizacja
-					p.next.Lock=false;//ustawiam na false by odplokowa�
+					p.next.Lock=false;//ustawiam na false by odplokowa�
 					return 2;
 				}
 			}
 			p.next.Lock=false;
+                        p.next.change_process_state(process_manager.status.READY);//nie jestem 100% pewny ale tak się chyba budzi
 			return 1;
 		}
 	}
