@@ -369,7 +369,7 @@ void exe()
 		m.writeMemory(Integer.valueOf(roz)+i, rez.charAt(i));
 	} break;
 	}
-	if(Main.S.runningProcess!=null)
-	Main.S.runningProcess.cpu+=50;
+	if(Main.S.runningProcess!=null || Main.S.runningProcess==Main.T.INIT)
+	Main.S.runningProcess.cpu+=40;
 }
 }
