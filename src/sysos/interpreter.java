@@ -16,8 +16,9 @@ public class interpreter {
 	}
 void exe()
 {
-	if(Main.S.x==2){ Main.S.check(Main.T); Main.S.x=0; }
-	Main.S.x++;
+	//if(Main.S.x==2){ Main.S.check(Main.T); Main.S.x=0; }
+	//Main.S.x++;
+	Main.S.check(Main.T);
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
 	Main.S.runningProcess.counter+=roz.length()+1;
@@ -347,22 +348,22 @@ void exe()
 		if(Main.S.runningProcess.next.equals(null))
 			Main.S.runningProcess.fork(roz);
 		potoki.pipe(Main.S.runningProcess);
-		System.out.println(Main.S.runningProcess.next.Lock);
+		System.out.println(Main.S.runningProcess.next.Lock1);
 	} break;
 	case "SC":
 	{
 		int a=potoki.write(Main.S.runningProcess);
 		if(a==0)
-		System.out.println("Nie komunikatu do wyslania");
+		System.out.println("Nie ma komunikatu do wyslania");
 	} break;
 	case "RC":
 	{
 		int a=potoki.read(Main.S.runningProcess);
 		if(a==-1)
-		System.out.println("Komunikat nie zostal jeszcze wyslany");
+			Main.S.runningProcess.counter-=3;
 		if(a==0)
 		System.out.println("Pusty potok");
-		System.out.println(Main.S.runningProcess.Lock);
+		System.out.println(Main.S.runningProcess.IO.toString());
 	} break;
 	case "EX":
 	{

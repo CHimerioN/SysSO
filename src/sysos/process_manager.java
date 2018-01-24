@@ -135,7 +135,7 @@ public class process_manager {
         public int des;
         public boolean res_flag;
         public process previous, next;
-        public boolean Lock;
+        public boolean Lock,Lock1=false;
         //kontekst procesu
         public int A, B, C, D, counter;
 
@@ -158,7 +158,7 @@ public class process_manager {
             this.C = 0;
             this.D = 0;
             this.counter = 0;
-            this.Lock = true;
+            this.Lock = false;
         }
 
         public void change_process_state(status status) {
@@ -847,10 +847,10 @@ public class process_manager {
 
         public void show_list() {
             process i = INIT;
-            System.out.println("PID/PPID/STATUS\n" + i.PID + "/" + i.PPID + "/" + i.s);
+            System.out.println("PID/PPID/STATUS/USPRI\n" + i.PID + "/" + i.PPID + "/" + i.s +"/" + i.usrpri);
             while (i.next != null) {
                 i = i.next;
-                System.out.println(i.PID + "/" + i.PPID + "/" + i.s);
+                System.out.println(i.PID + "/" + i.PPID + "/" + i.s +"/" + i.usrpri);
             }
         }
 
