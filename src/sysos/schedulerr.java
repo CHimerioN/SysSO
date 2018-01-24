@@ -7,6 +7,7 @@ import static sysos.process_manager.status.READY;
 
 public class schedulerr {
 	public int readyp;
+	public int x = 0;
 	public ArrayList<Boolean> whichqs = new ArrayList<Boolean>();
 	public schedulerr() {
 		for(int i=0;i<128;i++){
