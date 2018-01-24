@@ -111,10 +111,10 @@ public class process_manager {
         
     }
 
-    //klasa zagnieÄ‚â€šÄąÄ˝dÄ‚â€šÄąÄ˝ona procesu
+    //klasa zagniezdzona procesu
     public class process {
 
-        //wskaĂ„Ä…Ă‚Â¸niki na procesy pokrewne
+        //wskazniki na procesy pokrewne
         public process father, big_bro, little_bro, child;
 
         //ID
@@ -197,7 +197,7 @@ public class process_manager {
             //String n_name = this.name + 'c';
             process p = new process(nazwa);
             p.PID = free_PID();
-            //pamiĂ„â€šÄąĹľĂ„â€šĂ‚Â¦
+            //pamiec
             //if (reserve_m(this.name, this.name, "") != false) {
             p.s = status.READY;
             Random gen = new Random();
@@ -230,12 +230,12 @@ public class process_manager {
             p2.next = p;
             p.next = null;
             p.previous = p2;
-            //jeĂ„Ä…Ă˘â‚¬Ĺ›li proces zostaÄ‚â€šÄąâ€š poprawnie utworzony
+            //jesli proces zostal poprawnie utworzony
             ready.add(p);
             System.out.println("Utworzono proces potomny o PID: " + p.PID);
             //show_process(p.PID);
             return p.PID;
-            //} //jeĂ„Ä…Ă˘â‚¬Ĺ›li nie zostaÄ‚â€šÄąâ€š
+            //} //jesli nie zostal
             /*else {
              System.out.println("Nie utworzono procesu potomnego!");
 
@@ -265,21 +265,21 @@ public class process_manager {
             int temp = -1;
             exit e = new exit();
             if (this.s == status.ZOMBIE) {
-                System.out.println("Proces z PID: " + this.PID + " nie istnieje, wiĂ„â€šÄąĹľc nie moÄ‚â€šÄąÄ˝na wywoÄ‚â€šÄąâ€šaĂ„â€šĂ‚Â¦ tej metody na jego dziecku.");
+                System.out.println("Proces z PID: " + this.PID + " nie istnieje, wiec nie mozna wywolac tej metody na jego dziecku.");
             } else {
                 if (this.child != null) {
-                    //sprawdzenie czy proces jest na liĂ„Ä…Ă˘â‚¬Ĺ›cie zakoĂ„â€šĂ‚Â±czonych
+                    //sprawdzenie czy proces jest na liscie zakonczonych
                     for (int i = 0; i < ex.size(); i++) {
                         e = ex.get(i);
                         if (e.who == this.child.PID) {
                             temp = i;
                         }
                     }
-                    //jeĂ„Ä…Ă˘â‚¬Ĺ›li jest
+                    //jesli jest
                     if (temp >= 0) {
                         e.res = 1;
                         int x = this.child.PID;
-                        //usuniĂ„â€šÄąĹľcie go z listy
+                        //usuniecie go z listy
                         process p = INIT;
                         while (p.next != null) {
                             p = p.next;
@@ -307,11 +307,11 @@ public class process_manager {
                         }
                         this.child = null;
                         this.s = status.ACTIVE;
-                        System.out.println("UsuniĂ„â€šÄąĹľto proces potomny o PID: " + x + " bo byÄ‚â€šÄąâ€š w stanie ZOMBIE," +
-                                " a proces o PID: " + this.PID + " nie zmieniÄ‚â€šÄąâ€š stanu.");
-                        //jeĂ„Ä…Ă˘â‚¬Ĺ›li nie ma
+                        System.out.println("Usunieto proces potomny o PID: " + x + " bo byl w stanie ZOMBIE," +
+                                " a proces o PID: " + this.PID + " nie zmienil stanu.");
+                        //jesli nie ma
                     } else {
-                        //jeĂ„Ä…Ă˘â‚¬Ĺ›li ACTIVE zczytujemy rejestry i licznik
+                        //jesli ACTIVE zczytujemy rejestry i licznik
                         if (this.s == status.ACTIVE) {
 //OJJJJ
 //OJJJJ
@@ -325,7 +325,7 @@ public class process_manager {
                             this.s = status.WAITING;
                         }
                         System.out.println("Proces o PID: " + this.PID + " zmienia stan an WAITING " +
-                                "i czeka na zakoĂ„â€šĂ‚Â±czenie potomka o PID: " + this.child.PID + ".");
+                                "i czeka na zakonczenie potomka o PID: " + this.child.PID + ".");
                         //dodanie do listy oczekujÄ‚â€šĂ„â€¦cych
                         wait w = new wait();
                         w.who = this.PID;
@@ -355,7 +355,7 @@ public class process_manager {
                     }
                     this.child.previous = null;
                     this.child.next = null;
-                    System.out.println("Dziecko procesu o PID: " + this.PID + " czyli " + this.child.PID + "zmieniĂ„â€šĂ˘â‚¬Â¦Ä‚Ë�Ă˘â€šÂ¬ÄąË‡ stan na TERMINATED.");
+                    System.out.println("Dziecko procesu o PID: " + this.PID + " czyli " + this.child.PID + "zmienil stan na TERMINATED.");
                 }
                 for (int i = 0; i < ex.size(); i++) {
                     if (ex.get(i).who == this.child.PID) {
@@ -443,12 +443,12 @@ public class process_manager {
                                 p.PPID = 0;
                             }
                         }
-                        System.out.println("UsuniĂ„â€šĂ˘â‚¬ĹľÄ‚Ë�Ă˘â‚¬ĹľĂ‹ďż˝to proces o PID: " + this.PID + ".");
+                        System.out.println("Usunieto proces o PID: " + this.PID + ".");
                         //FINALIZE
                         del = true;
                         return del;
                     } else {
-                        System.out.println("BĂ„â€šĂ˘â‚¬Â¦Ä‚Ë�Ă˘â€šÂ¬ÄąË‡Ă„â€šĂ˘â‚¬ĹľÄ‚Ë�Ă˘â€šÂ¬Ă‚Â¦d zwalniania pamiĂ„â€šĂ˘â‚¬ĹľÄ‚Ë�Ă˘â‚¬ĹľĂ‹ďż˝ci!");
+                        System.out.println("Bladd zwalniania pamieci!");
                     }
                 }
                 //jeĂ„â€šĂ˘â‚¬Â¦Ä‚Ë�Ă˘â€šÂ¬ÄąĹşli nie wykonano wait_PID
@@ -493,7 +493,7 @@ public class process_manager {
                     e.who = this.PID;
                     e.res = stat;
                     ex.add(e);
-                    System.out.println("Na procesie nie wykonano jeszcze metody wait_PID, wiĂ„â€šĂ˘â‚¬ĹľÄ‚Ë�Ă˘â‚¬ĹľĂ‹ďż˝c zostaĂ„â€šĂ˘â‚¬Â¦Ä‚Ë�Ă˘â€šÂ¬ÄąË‡ dodany do listy procesĂ„â€šÄŹĹĽËťÄ‚â€šÄąâ€šw ZOMBIE.");
+                    System.out.println("Na procesie nie wykonano jeszcze metody wait_PID, wiec zostal dodany do listy procesĂ„â€šÄŹĹĽËťÄ‚â€šÄąâ€šw ZOMBIE.");
                     del = true;
                     return del;
                 } else {
