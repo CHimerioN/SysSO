@@ -1,5 +1,9 @@
 package sysos;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
 import sysos.process_manager.process;
 
 public class interpreter {
@@ -293,6 +297,26 @@ void exe()
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
 		Main.S.runningProcess.fork(roz);
+		System.out.println(roz);
+		String naz=roz;
+		roz="";
+		roz=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=roz.length()+1;
+		System.out.println(roz);
+		Scanner in=null;
+		try {
+			in = new Scanner(new FileReader(roz)).useDelimiter("\\n");
+		} catch (FileNotFoundException e) {
+			System.out.println("Nie znalesiono pliku o podanej nazwie");
+		}
+		StringBuilder sb = new StringBuilder();
+		while(in.hasNext()) {
+		    sb.append(in.next());
+		}
+		in.close();
+		String out= sb.toString();
+		int x = Main.T.find_name(naz);
+		Main.T.find(x).exec(out, roz+"txt", 0);
 	} break;
 	case "DP":
 	{
@@ -368,8 +392,9 @@ void exe()
 		for(int i=0;i<rez.length();i++)
 		m.writeMemory(Integer.valueOf(roz)+i, rez.charAt(i));
 	} break;
+	default: break;
 	}
-	if(Main.S.runningProcess!=null || Main.S.runningProcess==Main.T.INIT)
+	if(Main.S.runningProcess!=null || Main.S.runningProcess!=Main.T.INIT)
 	Main.S.runningProcess.cpu+=40;
 }
 }

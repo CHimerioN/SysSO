@@ -17,6 +17,7 @@ public class potoki {
 		int index = p.next.des;
 		potoki ref = plik1.tab[index];
 		if (ref.myQueue.peek() == null) {
+			
 			return 0;
 		} else {
 			while (ref.myQueue.peek() != null) {
@@ -43,9 +44,11 @@ public class potoki {
 				ref.myQueue.offer(znak);
 				ref.qfreespace--;
 				if (ref.qfreespace == 0) {// zapeĹ‚nienie caĹ‚ego potoku tutaj powinna byÄ‡ synchronizacja
+					p.next.Lock=false;//ustawiam na false by odplokowa�
 					return 2;
 				}
 			}
+			p.next.Lock=false;
 			return 1;
 		}
 	}
