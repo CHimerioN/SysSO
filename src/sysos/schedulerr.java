@@ -20,7 +20,7 @@ public class schedulerr {
 	}
 	public ArrayList<ArrayList<process>> qs = new ArrayList<ArrayList<process>>(128);
 
-	public process runningProcess = null;
+	public process runningProcess = Main.T.INIT;
 	
 	
 	public void add_to_q(process x) {
