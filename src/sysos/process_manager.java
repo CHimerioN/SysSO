@@ -244,23 +244,21 @@ public class process_manager {
         }
 
         public boolean exec(String code, String path, int size) {
-            //sprawdzenie pamiĂ„â€šÄąĹľci
-            //if (reserve_m(this.name, this.name, path)) {
-            //reset skÄ‚â€šÄąâ€šadowych
+        			
+        	process backup = Main.S.runningProcess;
+        	Main.S.runningProcess = this;
             Main.M.allocateMemory(code, size);
+        	Main.S.runningProcess = backup;
+            
             this.A = 0;
             this.B = 0;
             this.C = 0;
             this.D = 0;
             this.counter = 0;
             this.code = code;
-            //this.programSize = size;
             this.s = status.READY;
-            System.out.println("Proces o PID: " + this.PID + " otrzymaÄ‚â€šÄąâ€š nowy kod do wykonania.");
+            System.out.println("Proces o PID: " + this.PID + " otrzymal nowy kod do wykonania.");
             return true;
-            //} else {
-            //  return false;
-            //}
         }
 
         public boolean wait_PID() {
@@ -522,6 +520,7 @@ public class process_manager {
                 } else {
                     System.out.println("Wprowadzono zÄ‚â€šÄąâ€še dane!");
                 }
+                s.close();
             }
             process p = INIT;
             boolean is = false;
