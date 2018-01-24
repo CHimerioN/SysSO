@@ -7,7 +7,7 @@ import static sysos.process_manager.status.READY;
 
 public class schedulerr {
 	public int readyp;
-	private ArrayList<Boolean> whichqs = new ArrayList<Boolean>();
+	public ArrayList<Boolean> whichqs = new ArrayList<Boolean>();
 	public schedulerr() {
 		for(int i=0;i<128;i++){
 			whichqs.add(false);
@@ -18,7 +18,7 @@ public class schedulerr {
 			qs.add(p);
 		}
 	}
-	private ArrayList<ArrayList<process>> qs = new ArrayList<ArrayList<process>>(128);
+	public ArrayList<ArrayList<process>> qs = new ArrayList<ArrayList<process>>(128);
 
 	public process runningProcess = null;
 	
@@ -53,7 +53,7 @@ public class schedulerr {
 	}
 	
 	private void runProcess(process_manager p) {
-		//ArrayList<process> ready = Main.T.ready;			//dodaje do kolejki gotowe procesy
+		//clear_q();
 		for(;readyp < Main.T.ready.size();readyp++) {
 			add_to_q(Main.T.ready.get(readyp));
 		}
@@ -77,7 +77,7 @@ public class schedulerr {
             runProcess(p);
             return;
         }
-        if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoĹ›ci cpu procesu running i odkĹ‚ada go do kolejki procesĂłw
+        if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoÄąâ€şci cpu procesu running i odkÄąâ€šada go do kolejki procesÄ‚Ĺ‚w
             runningProcess.change_process_state(READY);
             runningProcess.Lock=true;
             divide_cpu();
