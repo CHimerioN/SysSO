@@ -43,7 +43,7 @@ public class schedulerr {
 	}
 	
 	private void change_q() {
-		if((runningProcess.pri+(runningProcess.cpu/2))<127){
+		if((runningProcess.pri+(runningProcess.cpu/2))<127||runningProcess==Main.T.INIT){
 			runningProcess.usrpri=runningProcess.pri+(runningProcess.cpu/2);
 		} else {
 			runningProcess.usrpri=126;
