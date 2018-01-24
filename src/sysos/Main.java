@@ -15,6 +15,7 @@ public class Main {
 	public static FileSystem F = new FileSystem();
 	public static int OBECNY_PROCES;
 	public static schedulerr S = new schedulerr();
+	public static plik1 P = new plik1();
 	
 	public static void main(String[] args) {
 		//systemLoad();
