@@ -20,7 +20,6 @@ void exe()
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
 	Main.S.runningProcess.counter+=roz.length()+1;
 	System.out.println("Nazwa procesu: " + Main.S.runningProcess.name);
-	System.out.println("Rozkaz: " + roz);
 	switch(roz)
 	{
 	case "AD":
