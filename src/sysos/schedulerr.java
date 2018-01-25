@@ -70,7 +70,7 @@ public class schedulerr {
 		runningProcess.change_process_state(ACTIVE);
 		runningProcess.Lock=false;
 		qs.get(i).remove(0);	
-		whichqs.set(i, false);
+		if(qs.get(i).size()<1) whichqs.set(i, false);
 	}
 
 	public void check(process_manager p) {
