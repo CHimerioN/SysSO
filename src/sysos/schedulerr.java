@@ -33,7 +33,7 @@ public class schedulerr {
 		whichqs.set(x.usrpri, true);
 	}
 	
-	private void divide_cpu() {
+	public void divide_cpu() {
 		runningProcess.cpu /= 2;
 		for(int i=0; i<128;i++) {
 			for(int j=0;j<qs.get(i).size();j++) {
@@ -44,11 +44,6 @@ public class schedulerr {
 	}
 	
 	private void change_q() {
-		if((runningProcess.pri+(runningProcess.cpu/2))<127||runningProcess==Main.T.INIT){
-			runningProcess.usrpri=runningProcess.pri+(runningProcess.cpu/2);
-		} else {
-			runningProcess.usrpri=126;
-		}
 		qs.get(runningProcess.usrpri).add(runningProcess);
 		whichqs.set(runningProcess.usrpri, true);
 	}
