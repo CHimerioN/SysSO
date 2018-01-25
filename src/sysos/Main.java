@@ -46,6 +46,8 @@ public class Main {
 					System.out.println("GOM [n]                  : n kolejnych krokow wykonywanego procesu");
 					System.out.println("START [nazwa_procesu rezerwowane_miejsce nazwa_pliku]\n"
 									 + "                         : stworzenie procesu");
+					System.out.println("STPRI [nazwa_procesu rezerwowane_miejsce nazwa_pliku priorytet]\n"
+							 + "                         : stworzenie procesu o podanym priorytecie");
 					System.out.println("SREG                     : wyswietla rejestry");
 					System.out.println("exit                     : wyjscie ");
 					
@@ -202,6 +204,34 @@ public class Main {
 						kod = scan.nextLine();
 						int size = Integer.parseInt(tab[2]);
 						T.INIT.fork(tab[1]);
+						int x = T.find_name(tab[1]);
+						//S.check(T);
+						T.find(x).exec(kod, tab[3], kod.length()+size);
+						scan.close();
+					} catch (FileNotFoundException e) {
+						System.out.println("Nie znaleziono pliku");
+					}
+				
+				}else
+					System.out.println("nieprawidlowe wywolanie komendy");
+			}
+			
+			else if(tab[0].equals("STPRI"))
+			{
+				if(tab.length==5) {
+					/*
+					 tab[1] nazwa procesu
+					 tab[2] rezerwoe miejsce
+					 tab[3] nazwa pliku
+					 tab[4] priorytet
+					 */
+					String kod = new String();
+					Scanner scan;
+					try {
+						scan = new Scanner(new File(tab[3]));
+						kod = scan.nextLine();
+						int size = Integer.parseInt(tab[2]);
+						T.INIT.forkWithPri(tab[1], Integer.parseInt(tab[4]));
 						int x = T.find_name(tab[1]);
 						//S.check(T);
 						T.find(x).exec(kod, tab[3], kod.length()+size);
