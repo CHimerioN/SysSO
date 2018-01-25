@@ -81,7 +81,6 @@ public class schedulerr {
         if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoÄąâ€şci cpu procesu running i odkÄąâ€šada go do kolejki procesÄ‚Ĺ‚w
             runningProcess.change_process_state(READY);
             runningProcess.Lock=true;
-            divide_cpu();
             change_q();
             runProcess(p);
             return;
