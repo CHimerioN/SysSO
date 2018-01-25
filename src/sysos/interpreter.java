@@ -405,6 +405,6 @@ void exe()
 	default: break;
 	}
 	if(Main.S.runningProcess!=null || Main.S.runningProcess!=Main.T.INIT)
-	Main.S.runningProcess.cpu+=40;
+	Main.S.runningProcess.cpu+=60;
 }
 }
