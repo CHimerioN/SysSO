@@ -8,10 +8,12 @@ import java.util.ArrayList;
 class File_ {
 	public String name;
 	public int blockIndex;
+	String openedBy;
 	
 	public File_(String name_, int blockIndex_){
 		name = name_;
 		blockIndex = blockIndex_;
+		openedBy = "";
 	}
 }
 
@@ -57,12 +59,72 @@ public class FileSystem {
 			return;
 		}
 	}
+	
+	public void openFile(String name) {
+		for(File_ f : root.catalog) {
+			if(f.name.equals(name)) {
+				if(f.openedBy.equals("")) {
+					f.openedBy = Main.S.runningProcess.name;
+				}
+				else {
+					System.out.println("Plik jest juz otwarty");
+				}
+				return;
+			}
+		}
+		System.out.println("Plik o podanej nazwie nie istnieje");
+	}
+	
+	public void closeFile(String name) {
+		for(File_ f : root.catalog) {
+			if(f.name.equals(name)) {
+				if(f.openedBy.equals(Main.S.runningProcess.name)) {
+					f.openedBy = "";
+				}
+				else {
+					System.out.println("Plik jest uzywany przez inny proces");
+				}
+				return;
+			}
+		}
+		System.out.println("Plik o podanej nazwie nie istnieje");	
+	}
 
 	public void writeFile(String name, String content) {
 		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
-				int neededBlocks = content.length() / nrOfBlocks + 1;
+				if(f.openedBy.equals("")) {
+					System.out.println("Plik nie jest otwarty");
+					return;
+				}
+				if(!f.openedBy.equals(Main.S.runningProcess.name)) {
+					System.out.println("Plik jest otwarty przez inny proces");
+					return;
+				}
+				int lastUsedBlock = -1;
 				int index = 0;
+				for(int i=f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
+					if(disc[i] != emptySign) {
+						lastUsedBlock = (int) disc[i];
+					}
+				}
+				if(lastUsedBlock != -1) {
+					for(int i = lastUsedBlock; i<lastUsedBlock + nrOfBlocks; i++) {
+						if(disc[i] ==  emptySign) {
+							if(index < content.length()) {
+								disc[i] = content.charAt(index++);
+							}
+						}
+					}	
+				}
+				int neededBlocks;
+				if(content.length() <= index) {
+					neededBlocks = 0;
+				}
+				else {
+					neededBlocks = (content.length() - index) / nrOfBlocks + 1;
+				}
+				System.out.println("need: " + neededBlocks);
 				for (int i = 0; i < neededBlocks; i++) {
 					int tempIndex = assignIndex();
 					if (tempIndex != -1) {
@@ -91,6 +153,14 @@ public class FileSystem {
 	public void readFile(String name) {
 		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
+				if(f.openedBy.equals("")) {
+					System.out.println("Plik nie jest otwarty");
+					return;
+				}
+				if(!f.openedBy.equals(Main.S.runningProcess.name)) {
+					System.out.println("Plik jest otwarty przez inny proces");
+					return;
+				}
 				String data = "";
 				for (int i = f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
 					if (disc[i] != emptySign) {
@@ -112,6 +182,14 @@ public class FileSystem {
 	public void deleteFile(String name) {
 		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
+				if(f.openedBy.equals("")) {
+					System.out.println("Plik nie jest otwarty");
+					return;
+				}
+				if(!f.openedBy.equals(Main.S.runningProcess.name)) {
+					System.out.println("Plik jest otwarty przez inny proces");
+					return;
+				}
 				for (int i = f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
 					if (disc[i] != emptySign) {
 						int currentBlockNr = (int) disc[i];
@@ -139,6 +217,14 @@ public class FileSystem {
 	public void printFileData(String name) {
 		for (File_ f : root.catalog) {
 			if (f.name.equals(name)) {
+				if(f.openedBy.equals("")) {
+					System.out.println("Plik nie jest otwarty");
+					return;
+				}
+				if(!f.openedBy.equals(Main.S.runningProcess.name)) {
+					System.out.println("Plik jest otwarty przez inny proces");
+					return;
+				}
 				System.out.println(f.name + " " + f.blockIndex);
 				return;
 			}
@@ -170,9 +256,9 @@ public class FileSystem {
 		int blockRange = blockI*nrOfBlocks;
 		for (int i = blockRange; i < blockRange+32; i++) {
 			if ((i + 1) % 8 == 0) {
-				System.out.println(disc[i]);
+				System.out.println((int)disc[i]);
 			} else {
-				System.out.print(disc[i]);
+				System.out.print((int)disc[i]+" ");
 			}
 		}
 	}
