@@ -1,12 +1,8 @@
 package sysos;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 import java.io.File;
-
-import sysos.process_manager.process;
 
 public class Main {
 		
@@ -18,8 +14,7 @@ public class Main {
 	public static plik1 P = new plik1();
 	
 	public static void main(String[] args) {
-		//systemLoad();
-		//systemLoadLite();
+		systemLoadLite();
 		T.init();
 		S.runningProcess=T.INIT;
 		String string;
@@ -43,15 +38,16 @@ public class Main {
 					System.out.println("LS                       : wyswietlenie plikow");
 					System.out.println("PD                       : sprawdzanie zawartosci dysku");
 					System.out.println("PB [nr_bloku]            : sprawdzenie pojedynczego bloku dysku");
-					System.out.println("MEMORY                   : sprawdzanie stanu pamieci; ");
-					System.out.println("TASKLIST                 : sprawdzanie listy procesow; ");
+					System.out.println("PING [nazwa_pliku]       : ping adresu ip wskazanego w pliku");
+					System.out.println("MEMORY                   : sprawdzanie stanu pamieci");
+					System.out.println("TASKLIST                 : sprawdzanie listy procesow");
 					System.out.println("TASKKILL [nazwa_procesu] : zabijanie procesu; ");
-					System.out.println("GO                       : kolejny krok wykonywanego procesu; ");
-					System.out.println("GOM [n]                  : n kolejnych krokow wykonywanego procesu; ");
+					System.out.println("GO                       : kolejny krok wykonywanego procesu");
+					System.out.println("GOM [n]                  : n kolejnych krokow wykonywanego procesu");
 					System.out.println("START [nazwa_procesu rezerwowane_miejsce nazwa_pliku]\n"
-									 + "                         : stworzenie procesu; ");
-					System.out.println("SREG                     : wyswietla rejestry; ");
-					System.out.println("exit                     : wyjscie; ");
+									 + "                         : stworzenie procesu");
+					System.out.println("SREG                     : wyswietla rejestry");
+					System.out.println("exit                     : wyjscie ");
 					
 				}else
 					System.out.println("nieprawidlowe wywolanie komendy");
@@ -128,6 +124,15 @@ public class Main {
 					F.listAllFiles();					
 				}else
 					System.out.println("nieprawidlowe wywolanie komendy");
+			}
+			
+			else if(tab[0].equals("PING")) {
+				if(tab.length == 2) {
+					F.executePingFromFile(tab[1]);
+				}
+				else {
+					System.out.println("nieprawidlowe wywolanie komendy");
+				}
 			}
 			
 			else if(tab[0].equals("MEMORY"))
@@ -226,41 +231,15 @@ public class Main {
 			in.close();	
 	}
 	
-	private static void systemLoad() {
-		StringBuilder barPattern = new StringBuilder("[░░░░░░░░░░]\r");
-		for(int i=0; i<10; i++) {
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			barPattern.setCharAt(i+1,'▓');
-			System.out.print(barPattern.toString());
-		}
-		System.out.println("Welcome in: ");
-		//java.awt.Toolkit.getDefaultToolkit().beep();
-		
-		System.out.println("                           ********           ********");
-		System.out.println("                          **//////           **////// ");
-		System.out.println("                         /**         ****** /**       ");
-		System.out.println("                         /********* **////**/*********");
-		System.out.println("                         ////////**/**   /**////////**");
-		System.out.println("                                /**/**   /**       /**");
-		System.out.println("                          ******** //******  ******** ");
-		System.out.println("                         ////////   //////  ////////  ");
-		System.out.println();
-		//credits: http://www.network-science.de/ascii/
-	}
-	
 	private static void systemLoadLite() {
 		System.out.print("[");
 		for(int i=0; i<10; i++) {
 			try {
-				Thread.sleep(50);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.print("▓");
+			System.out.print("||");
 		}
 		System.out.println("]");
 		System.out.println("Welcome in: ");
