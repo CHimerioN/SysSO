@@ -403,7 +403,7 @@ void exe()
 	}
 	default: break;
 	}
-	if(Main.S.runningProcess!=INIT)
+	if(Main.S.runningProcess!=Main.T.INIT)
 	Main.S.runningProcess.cpu += 60;
 	Main.S.divide_cpu();
 	if((Main.S.runningProcess.pri+(Main.S.runningProcess.cpu/2))<127){
