@@ -867,10 +867,10 @@ public class process_manager {
 
         public void show_list() {
             process i = INIT;
-            System.out.println("PID/PPID/STATUS\n" + i.PID + "/" + i.PPID + "/" + i.s);
+            System.out.println("PID/NAZWA/PPID/STATUS/PRI/USRPRI\n" + i.PID + "/" + i.name + "/" + i.PPID + "/" + i.s + "/" + i.pri + "/" + i.usrpri);
             while (i.next != null) {
                 i = i.next;
-                System.out.println(i.PID + "/" + i.PPID + "/" + i.s);
+                System.out.println(i.PID + "/" + i.name + "/" + i.PPID + "/" + i.s + "/" + i.pri + "/" + i.usrpri);
             }
         }
 
