@@ -129,7 +129,7 @@ public class process_manager {
         public int id, move;
         public String code;
         public int programSize;
-        public final Queue<Character> IO = new LinkedList<>();
+        public Queue<Character> IO = new LinkedList<>();
         public boolean input;
         public boolean output;
         public int des;
@@ -202,7 +202,7 @@ public class process_manager {
             //if (reserve_m(this.name, this.name, "") != false) {
             p.s = status.READY;
             Random gen = new Random();
-            int i = gen.nextInt(127);
+            int i = gen.nextInt(117);
             p.A = this.A;
             p.B = this.B;
             p.C = this.C;
@@ -251,7 +251,8 @@ public class process_manager {
         	Main.S.runningProcess = this;
             Main.M.allocateMemory(code, size);
         	Main.S.runningProcess = backup;
-        	this.pri=pri;
+        	this.pri=pri+10;
+        	this.usrpri=pri+10;
             this.A = 0;
             this.B = 0;
             this.C = 0;

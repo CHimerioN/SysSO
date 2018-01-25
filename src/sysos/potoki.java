@@ -41,7 +41,7 @@ public class potoki {
 		if (ref.qfreespace == 0) {
 			return 0;
 		} else {
-			while (p.IO.peek() != null) {
+			while (p.IO.size()>0 ) {
 				znak = p.IO.poll();
 				ref.myQueue.offer(znak);
 				ref.qfreespace--;

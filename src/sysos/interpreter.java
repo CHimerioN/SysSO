@@ -4,8 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-import sysos.process_manager.process;
-import sysos.process_manager.status;
 
 public class interpreter {
 	public Memory m;
@@ -22,8 +20,8 @@ void exe()
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
 	Main.S.runningProcess.counter+=roz.length()+1;
-	System.out.println(Main.S.runningProcess.name);
-	System.out.println(roz);
+	System.out.println("Nazwa procesu: " + Main.S.runningProcess.name);
+	System.out.println("Rozkaz: " + roz);
 	switch(roz)
 	{
 	case "AD":
@@ -338,7 +336,7 @@ void exe()
 			Main.S.runningProcess.zapisdoprocesu(Integer.toString(Main.S.runningProcess.C));
 		if(roz.equals("R4"))
 			Main.S.runningProcess.zapisdoprocesu(Integer.toString(Main.S.runningProcess.D));
-		if(!roz.equals("R1") && roz.equals("R2") && roz.equals("R3") && roz.equals("R4"))
+		if(!roz.equals("R1") && !roz.equals("R2") && !roz.equals("R3") && !roz.equals("R4"))
 		{
 			Main.S.runningProcess.zapisdoprocesu(roz);
 		}
@@ -348,7 +346,6 @@ void exe()
 		if(Main.S.runningProcess.next.equals(null))
 			Main.S.runningProcess.fork(roz);
 		potoki.pipe(Main.S.runningProcess);
-		System.out.println(Main.S.runningProcess.next.Lock1);
 	} break;
 	case "SC":
 	{
@@ -360,22 +357,10 @@ void exe()
 	{
 		int a=potoki.read(Main.S.runningProcess);
 		if(a==-1)
-		{
 			Main.S.runningProcess.counter-=3;
-			Main.S.runningProcess.change_process_state(status.WAITING);
-		}
 		if(a==0)
-		{
-			String g=Main.S.runningProcess.IO.toString();
-			System.out.println(g);
-		}
+			System.out.println("Potok pusty");
 	} break;
-	case "EX":
-	{
-		Main.S.runningProcess.kill(Main.S.runningProcess.PID);
-		Main.S.runningProcess=Main.T.INIT;
-		break;
-	}
 	case "MS" :
 	{
 		roz="";
@@ -402,6 +387,20 @@ void exe()
 		for(int i=0;i<rez.length();i++)
 		m.writeMemory(Integer.valueOf(roz)+i, rez.charAt(i));
 	} break;
+	case "PC":
+	{
+		String a=Main.S.runningProcess.IO.toString();
+		if(!a.equals(""))
+			System.out.println("Komunikat: " + a);
+		else
+			System.out.println("Brak komunikatu");
+	}break;
+	case "EX":
+	{
+		Main.S.runningProcess.kill(Main.S.runningProcess.PID);
+		Main.S.runningProcess=Main.T.INIT;
+		break;
+	}
 	default: break;
 	}
 	if(Main.S.runningProcess!=null || Main.S.runningProcess!=Main.T.INIT)
