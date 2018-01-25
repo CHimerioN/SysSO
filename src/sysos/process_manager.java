@@ -303,8 +303,8 @@ public int forkWithPri(String nazwa, int i) {
         	Main.S.runningProcess = this;
             Main.M.allocateMemory(code, size);
         	Main.S.runningProcess = backup;
-        	this.pri=pri+10;
-        	this.usrpri=pri+10;
+        	this.pri=pri;
+        	this.usrpri=pri;
             this.A = 0;
             this.B = 0;
             this.C = 0;
