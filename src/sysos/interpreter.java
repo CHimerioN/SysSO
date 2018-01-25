@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 import sysos.process_manager.process;
+import sysos.process_manager.status;
 
 public class interpreter {
 	public Memory m;
@@ -16,9 +17,8 @@ public class interpreter {
 	}
 void exe()
 {
-	//if(Main.S.x==2){ Main.S.check(Main.T); Main.S.x=0; }
-	//Main.S.x++;
-	Main.S.check(Main.T);
+	if(Main.S.x==2){ Main.S.check(Main.T); Main.S.x=0; }
+	Main.S.x++;
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
 	Main.S.runningProcess.counter+=roz.length()+1;
@@ -354,16 +354,21 @@ void exe()
 	{
 		int a=potoki.write(Main.S.runningProcess);
 		if(a==0)
-		System.out.println("Nie ma komunikatu do wyslania");
+		System.out.println("Nie komunikatu do wyslania");
 	} break;
 	case "RC":
 	{
 		int a=potoki.read(Main.S.runningProcess);
 		if(a==-1)
+		{
 			Main.S.runningProcess.counter-=3;
+			Main.S.runningProcess.change_process_state(status.WAITING);
+		}
 		if(a==0)
-		System.out.println("Pusty potok");
-		System.out.println(Main.S.runningProcess.IO.toString());
+		{
+			String g=Main.S.runningProcess.IO.toString();
+			System.out.println(g);
+		}
 	} break;
 	case "EX":
 	{

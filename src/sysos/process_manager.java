@@ -158,7 +158,7 @@ public class process_manager {
             this.C = 0;
             this.D = 0;
             this.counter = 0;
-            this.Lock = false;
+            this.Lock = true;
         }
 
         public void change_process_state(status status) {
@@ -847,10 +847,10 @@ public class process_manager {
 
         public void show_list() {
             process i = INIT;
-            System.out.println("PID/PPID/STATUS/USPRI\n" + i.PID + "/" + i.PPID + "/" + i.s +"/" + i.usrpri);
+            System.out.println("PID/PPID/STATUS\n" + i.PID + "/" + i.PPID + "/" + i.s);
             while (i.next != null) {
                 i = i.next;
-                System.out.println(i.PID + "/" + i.PPID + "/" + i.s +"/" + i.usrpri);
+                System.out.println(i.PID + "/" + i.PPID + "/" + i.s);
             }
         }
 

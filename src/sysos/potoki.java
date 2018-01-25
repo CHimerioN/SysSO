@@ -46,7 +46,7 @@ public class potoki {
 				ref.myQueue.offer(znak);
 				ref.qfreespace--;
 				if (ref.qfreespace == 0) {// zapeĹ‚nienie caĹ‚ego potoku tutaj powinna byÄ‡ synchronizacja
-					p.next.Lock1=false;//ustawiam na false by odplokowa�
+					p.next.Lock=false;//ustawiam na false by odplokowa�
 					return 2;
 				}
 			}
