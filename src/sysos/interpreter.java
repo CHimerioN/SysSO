@@ -316,7 +316,7 @@ void exe()
 		in.close();
 		String out= sb.toString();
 		int x = Main.T.find_name(naz);
-		Main.T.find(x).exec(out, roz+"txt", out.length());
+		Main.T.find(x).exec(out, roz+"txt", out.length(),Main.S.runningProcess.pri);
 	} break;
 	case "DP":
 	{
