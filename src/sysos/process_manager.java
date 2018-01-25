@@ -553,8 +553,8 @@ public class process_manager {
                         Main.S.runningProcess=INIT;
                     }
                     else {
-                        Main.S.qs.get(find(pid).usrpri).remove(find(pid));
-                        Main.S.whichqs.set(find(pid).usrpri,false);
+                       if(Main.S.qs.get(find(pid).usrpri).size()<2) Main.S.whichqs.set(find(pid).usrpri,false);
+                        Main.S.qs.get(find(pid).usrpri).remove(find(pid));    
                     }
                     for (int i = 0; i < wa.size(); i++) {
                         if (wa.get(i).who == p.PID) {
