@@ -543,6 +543,7 @@ public class process_manager {
                 }
                 s.close();
             }
+            Main.M.deallocateMemory(pid);
             process p = INIT;
             boolean is = false;
             //czy jest taki proces
