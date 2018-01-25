@@ -1,5 +1,8 @@
 package sysos;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 class File_ {
@@ -155,7 +158,7 @@ public class FileSystem {
 
 	public void printDisc() {
 		for (int i = 0; i < disc.length; i++) {
-			if ((i + 1) % 128 == 0) {
+			if ((i + 1) % 64 == 0) {
 				System.out.println(disc[i]);
 			} else {
 				System.out.print(disc[i]);
@@ -172,5 +175,46 @@ public class FileSystem {
 				System.out.print(disc[i]);
 			}
 		}
+	}
+	
+	public void executePingFromFile(String name ) {
+		for (File_ f : root.catalog) {
+			if (f.name.equals(name)) {
+				String data = "";
+				for (int i = f.blockIndex; i < f.blockIndex + nrOfBlocks; i++) {
+					if (disc[i] != emptySign) {
+						int currentBlockNr = (int) disc[i];
+						for (int j = currentBlockNr; j < currentBlockNr + nrOfBlocks; j++) {
+							if (disc[j] != emptySign) {
+								data += disc[j];
+							}
+						}
+					}
+				}
+				String ip = data;
+		        String pingResult = "";
+
+		        String pingCmd = "ping " + ip;
+		        try {
+		            Runtime r = Runtime.getRuntime();
+		            Process p = r.exec(pingCmd);
+
+		            BufferedReader in = new BufferedReader(new
+		            InputStreamReader(p.getInputStream()));
+		            String inputLine;
+		            while ((inputLine = in.readLine()) != null) {
+		                System.out.println(inputLine);
+		                pingResult += inputLine;
+		            }
+		            in.close();
+
+		        } catch (IOException e) {
+		            System.out.println(e);
+		        }
+		        System.out.println(pingResult);
+		        return;
+			}
+		}
+		System.out.println("Plik o podanej nazwie nie istnieje");
 	}
 }
