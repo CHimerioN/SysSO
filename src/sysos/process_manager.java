@@ -244,7 +244,25 @@ public class process_manager {
              return -1;
              }*/
         }
-
+	
+	public boolean exec(String code, String path, int size, int pri) {
+			
+        	process backup = Main.S.runningProcess;
+        	Main.S.runningProcess = this;
+            Main.M.allocateMemory(code, size);
+        	Main.S.runningProcess = backup;
+        	this.pri=pri;
+            this.A = 0;
+            this.B = 0;
+            this.C = 0;
+            this.D = 0;
+            this.counter = 0;
+            this.code = code;
+            this.s = status.READY;
+            System.out.println("Proces o PID: " + this.PID + " otrzymal nowy kod do wykonania.");
+            return true;
+        }     
+	    
         public boolean exec(String code, String path, int size) {
         			
         	process backup = Main.S.runningProcess;
