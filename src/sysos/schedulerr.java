@@ -34,11 +34,16 @@ public class schedulerr {
 	}
 	
 	public void divide_cpu() {
-		runningProcess.cpu /= 2;
-		for(int i=0; i<128;i++) {
+		runningProcess.cpu = runningProcess.cpu/2;
+		for(int i=0; i<127;i++) {
 			for(int j=0;j<qs.get(i).size();j++) {
 				if(qs.get(i).get(j).cpu>0)
-                                qs.get(i).get(j).cpu /= 2;
+                           qs.get(i).get(j).cpu /= 2;
+				if((qs.get(i).get(j).pri+(qs.get(i).get(j).cpu/2))<127){
+					qs.get(i).get(j).usrpri=qs.get(i).get(j).pri+(qs.get(i).get(j).cpu/2);
+				} else {
+					qs.get(i).get(j).usrpri=126;
+				}
 			}
 		}
 	}
