@@ -244,6 +244,58 @@ public class process_manager {
              return -1;
              }*/
         }
+        
+public int forkWithPri(String nazwa, int i) {
+        	
+            //utworzenie nowego procesu i nadanie mu nazwy
+        	
+            //String n_name = this.name + 'c';
+            process p = new process(nazwa);
+            p.PID = free_PID();
+            //pamiĂ„â€šÄąĹľĂ„â€šĂ‚Â¦
+            //if (reserve_m(this.name, this.name, "") != false) {
+            p.s = status.READY;
+            p.A = this.A;
+            p.B = this.B;
+            p.C = this.C;
+            p.D = this.D;
+            p.counter = this.counter;
+            p.cpu = 0;
+            p.pri = i;
+            p.usrpri=i;
+            p.PPID = this.PID;
+            p.father = this;
+            //rodzina
+            if (this.child == null) {
+                this.child = p;
+            } else {
+                process p1 = this.child;
+                while (p1.little_bro != null) {
+                    p1 = p1.little_bro;
+                }
+                p1.little_bro = p;
+                p.big_bro = p1;
+            }
+	            //dodanie do listy
+	            process p2 = this;
+	            while (p2.next != null) {
+	                p2 = p2.next;
+	            }
+            p2.next = p;
+            p.next = null;
+            p.previous = p2;
+            //jeĂ„Ä…Ă˘â‚¬Ĺ›li proces zostaÄ‚â€šÄąâ€š poprawnie utworzony
+            ready.add(p);
+            System.out.println("Utworzono proces potomny o PID: " + p.PID);
+            //show_process(p.PID);
+            return p.PID;
+            //} //jeĂ„Ä…Ă˘â‚¬Ĺ›li nie zostaÄ‚â€šÄąâ€š
+            /*else {
+             System.out.println("Nie utworzono procesu potomnego!");
+
+             return -1;
+             }*/
+        }
 	
 	public boolean exec(String code, String path, int size, int pri) {
 			
@@ -869,7 +921,8 @@ public class process_manager {
 
         public void show_list() {
             process i = INIT;
-            System.out.println("PID/NAZWA/PPID/STATUS/PRI/USRPRI\n" + i.PID + "/" + i.name + "/" + i.PPID + "/" + i.s + "/" + i.pri + "/" + i.usrpri);
+            System.err.println("PID/NAZWA/PPID/STATUS/PRI/USRPRI");
+            System.out.println(i.PID + "/" + i.name + "/" + i.PPID + "/" + i.s + "/" + i.pri + "/" + i.usrpri);
             while (i.next != null) {
                 i = i.next;
                 System.out.println(i.PID + "/" + i.name + "/" + i.PPID + "/" + i.s + "/" + i.pri + "/" + i.usrpri);
