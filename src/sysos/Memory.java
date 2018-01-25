@@ -12,21 +12,16 @@ import sysos.process_manager;
 import sysos.process_manager.process;
 
 public class Memory {
-
 	private char[] ram; // tablica zawierajaca pamiec
 	private File swap; // plik wymiany
 	public FFA ffa; // tablica wolnych ramek
 	public Stack<Integer> lruStack; // stos do LRU
-	public int SWAP_END = 1;
-	private process_manager T;
-	//private process OBECNY = Main.S.runningProcess;
-	//private Integer OBECNY = T.find(Main.S.runningProcess);
-	//////////////////////////////// KOSNSTRUKTOR //////////////////////////
+	public int SWAP_END = 1; // koniec pliku wymiany
+	private process_manager T; // wskaznik do process managera
 
+	//////////////////////////////// KOSNSTRUKTOR ////////////////////////////////
 	public Memory() { // konstruktor, inicjalizacja
-		T = Main.T; // Shell.T; // tutaj wskazuje na obiekt memory manager
-	//	OBECNY = Main.OBECNY_PROCES; // Shell.OBECNY_PROCES; // tutaj wskazuje na inta z obecnym procesem
-		
+		T = Main.T;
 		ram = new char[128];
 		for (int i = 0; i < ram.length; i++)
 			ram[i] = ' ';
@@ -43,19 +38,20 @@ public class Memory {
 	}
 
 	////////////////////////////////// PUBLICZNE///////////////////////////////////////////////////////////////////
-	public void freeMemory() {
+	public void freeMemory() { // zwalnia calkowicie pamiec
 		for (int i = 0; i < 8; i++) {
 			if (!ffa.ffa[i].isFree) {
 				deallocateMemory(ffa.ffa[i].processID);
 			}
 		}
 	}
-	
+
 	public void writeMemory(int l_addr, char value) {
 		process current = Main.S.runningProcess;
 
 		if (l_addr > getProgramSize(current)) {
 			System.out.println("ADRES LOGICZNY WIEKSZY NIZ ROZMIAR PROGRAMU");
+			return;
 		}
 		int strona = l_addr / 16;
 		int ramka = current.pageCheck(strona);
@@ -78,7 +74,7 @@ public class Memory {
 		}
 		current.pageEnable(strona, free);
 		ramka = current.pageCheck(strona);
-		ffa.occupyFrame(ramka, Main.S.runningProcess.id);
+		ffa.occupyFrame(ramka, Main.S.runningProcess.PID);
 		updateStack(ramka);
 
 		ram[ramka * 16 + l_addr % 16] = value;
@@ -126,11 +122,12 @@ public class Memory {
 				break;
 			out += temp;
 		}
+
 		return out;
 	}
 
 	//////////////////////////////// METODY_MOJE///////////////////////////////////////////////////////
-	private void putPageToSwap(int victim, int place) { // umieszcza stronĂŞ w podanym miejscu w pliku wymiany
+	private void putPageToSwap(int victim, int place) { // umieszcza strone w podanym miejscu w pliku wymiany
 		String toPut = new String();
 		for (int i = victim * 16; i < (victim * 16) + 16; i++) {
 			toPut += ram[i];
@@ -156,7 +153,7 @@ public class Memory {
 		}
 	}
 
-	private String getPageFromSwap(int pageNumber) { // zwraca stronĂŞ o danym numerze z pliku wymiany
+	private String getPageFromSwap(int pageNumber) { // zwraca strone o danym numerze z pliku wymiany
 		String out = new String();
 		try {
 			FileInputStream fis = new FileInputStream(swap);
@@ -222,7 +219,7 @@ public class Memory {
 		}
 	}
 
-	public char readMemory(int l_addr) { // zwraca char z pamiĂŞci
+	public char readMemory(int l_addr) { // zwraca char z pamiÄ‚Ĺžci
 		process current = Main.S.runningProcess;
 
 		if (l_addr > getProgramSize(current)) {
@@ -251,9 +248,10 @@ public class Memory {
 		for (int i = free * 16, j = 0; j < 16 && j < toPut.length(); i++, j++) {
 			ram[i] = toPut.charAt(j);
 		}
-		current.pageEnable(strona, free);
+		current.pageEnable(strona, free); ///////////
 		ramka = Main.S.runningProcess.pageCheck(strona);
-		ffa.occupyFrame(ramka, Main.S.runningProcess.id);
+		process test = Main.S.runningProcess;
+		ffa.occupyFrame(ramka, current.PID);
 		updateStack(ramka);
 
 		int doZwrotu = ramka * 16 + l_addr % 16;
@@ -274,13 +272,13 @@ public class Memory {
 			System.out.print("\n");
 
 			for (int j = 16 * i + 0; j < 16 * i + 16; j++) {
-				System.out.print(ram[j]+ "\t");
+				System.out.print(ram[j] + "\t");
 			}
 			System.out.print("\n\n");
 
 		}
 	}
-
+	
 	public void printMemory(int addr, int size) { // wyswietla konkretny przedzial pamieci
 		for (int i = addr; i < 128 && i < addr + size; i++) {
 			System.out.println(i + ": " + ram[i]);
@@ -338,8 +336,9 @@ public class Memory {
 
 		public void deallocate(int id) {
 			for (int i = 0; i < 8; i++) {
-				if (ffa[id].processID == id) {
-					ffa[id].isFree = true;
+				if (ffa[i].processID == id) {
+					ffa[i].processID = -1;
+					ffa[i].isFree = true;
 				}
 			}
 
