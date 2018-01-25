@@ -393,6 +393,10 @@ void exe()
 		else
 			System.out.println("Brak komunikatu");
 	}break;
+	case "NC":
+	{
+		Main.S.runningProcess.IO.clear();
+	} break;
 	case "EX":
 	{
 		Main.S.runningProcess.kill(Main.S.runningProcess.PID);
