@@ -31,6 +31,8 @@ public class Main {
 			if(tab[0].equals("HELP"))
 			{
 				if(tab.length==1) {
+					System.out.println("OF [nazwa_pliku]         : otwieranie wskazanego pliku");
+					System.out.println("CLF [nazwa_pliku]        : zamykanie wskazanego pliku");
 					System.out.println("DF [nazwa_pliku]         : usuwanie wskazanego pliku");
 					System.out.println("CF [nazwa_pliku]         : tworzenie pustego pliku o wskazanej nazwie");
 					System.out.println("WF [nazwa_pliku]         : dopisanie danych do danego pliku");
@@ -55,6 +57,22 @@ public class Main {
 					System.out.println("nieprawidlowe wywolanie komendy");
 			}
 			
+			else if(tab[0].equals("OF"))
+			{
+				if(tab.length==2)
+					F.openFile(tab[1]);
+				else
+					System.out.println("nieprawidlowe wywolanie komendy");
+			}
+			
+			else if(tab[0].equals("CLF"))
+			{
+				if(tab.length==2)
+					F.closeFile(tab[1]);
+				else
+					System.out.println("nieprawidlowe wywolanie komendy");
+			}
+			
 			else if(tab[0].equals("DF"))
 			{
 				if(tab.length==2)
@@ -76,11 +94,13 @@ public class Main {
 			{
 				if(tab.length>2)
 				{
-					String temp = "";
-					for (int i = 2; i < tab.length; i++) {
-						temp += tab[i];
-						temp += " ";
-					}
+//					String temp = "";
+//					for (int i = 2; i < tab.length; i++) {
+//						temp += tab[i];
+//						temp += " ";
+//					}
+					String temp = string.substring(4 + tab[1].length());
+					System.out.println(temp);
 					F.writeFile(tab[1], temp);
 				}
 				else
@@ -262,28 +282,17 @@ public class Main {
 	}
 	
 	private static void systemLoadLite() {
-		System.out.print("[");
-		for(int i=0; i<10; i++) {
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			System.out.print("||");
-		}
-		System.out.println("]");
-		System.out.println("Welcome in: ");
+		
 		//java.awt.Toolkit.getDefaultToolkit().beep();
-		System.out.println("                           ********           ********");
-		System.out.println("                          **//////           **////// ");
-		System.out.println("                         /**         ****** /**       ");
-		System.out.println("                         /********* **////**/*********");
-		System.out.println("                         ////////**/**   /**////////**");
-		System.out.println("                                /**/**   /**       /**");
-		System.out.println("                          ******** //******  ******** ");
-		System.out.println("                         ////////   //////  ////////  ");
+		System.out.println("                           ********             ********");
+		System.out.println("                          **//////             **////// ");
+		System.out.println("                         /**          ******  /**       ");
+		System.out.println("                         /*********  **////** /*********");
+		System.out.println("                         ////////** /**   /** ////////**");
+		System.out.println("                                /** /**   /**        /**");
+		System.out.println("                          ********  //******   ******** ");
+		System.out.println("                         ////////   //////   ////////  ");
 		System.out.println();
-		//credits: http://www.network-science.de/ascii/
 		
 	}
 
