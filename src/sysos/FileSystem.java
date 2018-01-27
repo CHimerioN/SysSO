@@ -81,6 +81,9 @@ public class FileSystem {
 				if(f.openedBy.equals(Main.S.runningProcess.name)) {
 					f.openedBy = "";
 				}
+				else if (f.openedBy.equals("")) {
+					System.out.println("Plik nie jest otwarty");
+				}
 				else {
 					System.out.println("Plik jest uzywany przez inny proces");
 				}
@@ -124,7 +127,7 @@ public class FileSystem {
 				else {
 					neededBlocks = (content.length() - index) / nrOfBlocks + 1;
 				}
-				System.out.println("need: " + neededBlocks);
+				//System.out.println("need: " + neededBlocks);
 				for (int i = 0; i < neededBlocks; i++) {
 					int tempIndex = assignIndex();
 					if (tempIndex != -1) {
