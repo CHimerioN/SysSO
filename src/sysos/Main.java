@@ -93,7 +93,7 @@ public class Main {
 					// temp += " ";
 					// }
 					String temp = string.substring(4 + tab[1].length());
-					System.out.println(temp);
+					//System.out.println(temp);
 					F.writeFile(tab[1], temp);
 				} else
 					System.out.println("nieprawidlowe wywolanie komendy");
