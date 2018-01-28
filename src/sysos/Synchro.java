@@ -48,7 +48,7 @@ public class Synchro {
     }
     
     
-    public void TO_CRITICAL_SECTION_TAS(process p) throws InterruptedException 
+    public void TO_CRITICAL_SECTION_TAS(process p)  
     {
         
         System.out.println(nazwa+" GOT INSIDE CRITICAL SECTION");
