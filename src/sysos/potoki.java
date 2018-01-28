@@ -12,6 +12,8 @@ public class potoki {
 	int writebytes = 0;// odczytane bity
 	int open = 0;// czy potok jest wykorzystywany przez potok
        public Boolean ojciec_do_syn=true;//kierunek zapisu
+      public int wskojciec;
+       
 	// funkcje odczytu z potoku
 	static public int read(process p) {
             
@@ -19,7 +21,17 @@ public class potoki {
             Synchro s2=new Synchro("name");
         	int index = p.des;
 		potoki ref = Main.P.tab[index];
-                
+                /////////////////////
+                /////////////////////
+                if(p.PPID==ref.wskojciec)
+                {
+                    ref.ojciec_do_syn=false;
+                }
+                else
+                {
+                    ref.ojciec_do_syn=true;
+                }
+                ////////////////////
 	           if (ref.myQueue.peek() == null) {
                 if (ref.ojciec_do_syn) {
                     s1.lock = true;
@@ -62,6 +74,15 @@ public class potoki {
         potoki ref = Main.P.tab[index];
         Synchro s1 = new Synchro("name");//obiekt synchronizacji dla procesu p1   
         Synchro s2 = new Synchro("name");//obiekt synchronizacji dla procesu p2
+        ////////////////////
+        ////////////////////
+        if (p.PPID == ref.wskojciec) {
+            ref.ojciec_do_syn = true;
+        } else {
+            ref.ojciec_do_syn = false;
+        }
+        /////////////////////////
+        
         if (ref.qfreespace == 0) {//jesli nie ma miejsca w potoku
             if (ref.ojciec_do_syn) {
                 s1.lock = true;
@@ -114,7 +135,8 @@ public class potoki {
 	static void pipe(process p)// sÄąâ€šuÄąÄ˝y do utworzenia potoku
 	{
 		// proces znajduje wolny deskryptor inicjalizuje swoje indexy deskryptora;
-		int index = Main.P.finddes();// od obiektu file
+		
+                int index = Main.P.finddes();// od obiektu file
 		if (index == -1) {
 			System.out.println("BÄąâ€šĂ„â€¦d deskryptora");
 		} else {
@@ -122,6 +144,7 @@ public class potoki {
 			p.des = index;
 			p.next.des = index;			
 		}
+               Main.P.tab[index].wskojciec=p.PPID;
 	}
 
 }
