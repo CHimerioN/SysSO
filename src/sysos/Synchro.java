@@ -64,7 +64,7 @@ public class Synchro {
         else{
             System.out.println(p.name +" GOT OFF CRITICAL SECTION");
              p.change_process_state(process_manager.status.READY);
-             Main.S.qs.get(Main.T.find(p.PID).usrpri).add(Main.Tfind(p.PID));
+             Main.S.qs.get(Main.T.find(p.PID).usrpri).add(Main.T.find(p.PID));
 Main.S.whichqs.set(Main.T.find(p.PID).usrpri, true);
         }
         
