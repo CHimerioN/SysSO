@@ -11,51 +11,104 @@ public class potoki {
 	int readbytes = 0;// zapisane bity
 	int writebytes = 0;// odczytane bity
 	int open = 0;// czy potok jest wykorzystywany przez potok
-
+       public Boolean ojciec_do_syn=true;//kierunek zapisu
 	// funkcje odczytu z potoku
 	static public int read(process p) {
-            if(p.Lock1==true){         
-            return -1;//zwracam w przypadku zamkniÄ™tego procesu z powodu braku komunikacji
-            }
-		int index = p.des;
+            
+            Synchro s1=new Synchro("name");//obiekt synchronizacji       
+            Synchro s2=new Synchro("name");
+        	int index = p.des;
 		potoki ref = Main.P.tab[index];
-		if (ref.myQueue.peek() == null) {
-			
-			return 0;
-		} else {
+                
+	           if (ref.myQueue.peek() == null) {
+                if (ref.ojciec_do_syn) {
+                    s1.lock = true;
+                    s2.lock = false;
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
+                    s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł zapisac info     
+                } else {//odwrotny kierunek komunikacji z syna->ojca
+                    s1.lock = true;
+                    s2.lock = false;
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
+                    s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł zapisac info     
+                }
+                return 0;   //zwracamy 0 w przypadku braku tekstu do odczytu                  
+            }
+                else {//sa dane do odczytu
 			while (ref.myQueue.peek() != null) {
 				p.IO.offer(ref.myQueue.poll());
 				ref.readbytes++;
 				ref.qfreespace++;
-			}
-			p.Lock1=true;
-			return 1;
-		}
+                }
+                if (ref.ojciec_do_syn) {
+                    s1.lock = true;
+                    s2.lock = false;
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
+                    s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł zapisac info     
+                } else {//odwrotny kierunek komunikacji z syna->ojca
+                    s1.lock = true;
+                    s2.lock = false;
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
+                    s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł zapisac info     
+                }
+                return 1;//zwracamy 1 po odczytaniu tekstu
+            }
 	}
 
-	// funcja zapisu do potoku, zwraca 0 dla bÄąâ€šĂ„â„˘du 1 dla zapisania wszystkich
-	// info,2 dla przepaÄąâ€šnienia
-	static public int write(process p) {
-		Character znak;// buffor znaku
-		int index = p.des;
-		potoki ref = Main.P.tab[index];
-		if (ref.qfreespace == 0) {
-			return 0;
-		} else {
-			while (p.IO.size()>0 ) {
-				znak = p.IO.poll();
-				ref.myQueue.offer(znak);
-				ref.qfreespace--;
-				if (ref.qfreespace == 0) {// zapeÄąâ€šnienie caÄąâ€šego potoku tutaj powinna byĂ„â€ˇ synchronizacja
-					p.next.Lock=false;//ustawiam na false by odplokowaďż˝
-					return 2;
-				}
-			}
-			p.next.Lock1=false;
-                        p.next.change_process_state(process_manager.status.READY);//nie jestem 100% pewny ale tak siÄ™ chyba budzi
-			return 1;
-		}
-	}
+    // funcja zapisu do potoku, zwraca 0 w przypadku braku miejsca i 1 po udanym zapisie do potoku 2 w przypadku przepelnienia potoku
+    static public int write(process p) {
+        Character znak;// buffor znaku
+        int index = p.des;
+        potoki ref = Main.P.tab[index];
+        Synchro s1 = new Synchro("name");//obiekt synchronizacji dla procesu p1   
+        Synchro s2 = new Synchro("name");//obiekt synchronizacji dla procesu p2
+        if (ref.qfreespace == 0) {//jesli nie ma miejsca w potoku
+            if (ref.ojciec_do_syn) {
+                s1.lock = true;
+                s2.lock = false;
+                s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
+                s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mogl odczytac info     
+            } else {//odwrotny kierunek komunikacji z syna->ojca
+                s1.lock = false;
+                s2.lock = true;
+                s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
+                s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mogl odczytac info     
+            }
+            return 0;//brak miejsca na dane
+        } else {//jesli w potoku jest miejsce na dane
+            while (p.IO.size() > 0) {
+                znak = p.IO.poll();
+                ref.myQueue.offer(znak);
+                ref.qfreespace--;
+                if (ref.qfreespace == 0) {// jezeli komunikat ktory chcemy przeslac jest za duzy                 
+                    if (ref.ojciec_do_syn) {
+                        s1.lock = true;//dla ojca
+                        s2.lock = false;//dla syna
+                        s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
+                        s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł odczytać info     
+                    } else {//odwrotny kierunek komunikacji z syna->ojca;syn pisze ojciec czyta
+                        s1.lock = false;
+                        s2.lock = true;
+                        s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
+                        s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł odczytać info     
+                    }
+                    return 2;//informacja o przepelnieniu potoku
+                }
+            }                   
+                if (ref.ojciec_do_syn) {
+                    s1.lock = true;//dla ojca
+                    s2.lock = false;//dla syna
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
+                    s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł odczytać info     
+                } else {//odwrotny kierunek komunikacji z syna->ojca;syn pisze ojciec czyta
+                    s1.lock = false;
+                    s2.lock = true;
+                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
+                    s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł odczytać info     
+                }
+                return 1;//wiadomosc przeslana bez problemu
+        }
+    }
 
 	// funkcja odpowiedzialna za utworzenie potoku
 	static void pipe(process p)// sÄąâ€šuÄąÄ˝y do utworzenia potoku
@@ -67,8 +120,7 @@ public class potoki {
 		} else {
 			Main.P.tab[index].open = 1;
 			p.des = index;
-			p.next.des = index;
-			p.next.Lock1=true;
+			p.next.des = index;			
 		}
 	}
 
