@@ -23,7 +23,7 @@ public class potoki {
 		potoki ref = Main.P.tab[index];
                 /////////////////////
                 /////////////////////
-                if(p.PPID==ref.wskojciec)
+                if(p.PID==ref.wskojciec)
                 {
                     ref.ojciec_do_syn=false;
                 }
@@ -76,7 +76,7 @@ public class potoki {
         Synchro s2 = new Synchro("name");//obiekt synchronizacji dla procesu p2
         ////////////////////
         ////////////////////
-        if (p.PPID == ref.wskojciec) {
+        if (p.PID == ref.wskojciec) {
             ref.ojciec_do_syn = true;
         } else {
             ref.ojciec_do_syn = false;
@@ -144,7 +144,7 @@ public class potoki {
 			p.des = index;
 			p.next.des = index;			
 		}
-               Main.P.tab[index].wskojciec=p.PPID;
+               Main.P.tab[index].wskojciec=p.PID;
 	}
 
 }
