@@ -51,23 +51,26 @@ public class Synchro {
     
     public void TO_CRITICAL_SECTION_TAS(process p)  
     {
-        
+       process temp = p;
         if(Test_and_Set(lock)==true)
         {
              p.change_process_state(process_manager.status.WAITING); 
              System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
-            if (Main.S.qs.get(Main.T.find(p.PID).usrpri).size() < 2) {
+             if(Main.T.find(p.PID)==Main.S.runningProcess) {
+            	Main.S.runningProcess=Main.T.INIT;
+             }else {           
+             if (Main.S.qs.get(Main.T.find(p.PID).usrpri).size() < 2) {
                 Main.S.whichqs.set(Main.T.find(p.PID).usrpri, false);
             }
             Main.S.qs.get(Main.T.find(p.PID).usrpri).remove(Main.T.find(p.PID));
+             }
         }
         else{
             System.out.println(p.name +" GOT OFF CRITICAL SECTION");
              p.change_process_state(process_manager.status.READY);
-             Main.S.qs.get(Main.T.find(p.PID).usrpri).add(Main.T.find(p.PID));
-Main.S.whichqs.set(Main.T.find(p.PID).usrpri, true);
+             Main.S.qs.get(Main.T.find(p.PID).usrpri).add(temp);
+             Main.S.whichqs.set(Main.T.find(p.PID).usrpri, true);
         }
-        
     }
     
     public void TO_CRITICAL_SECTION_CAS() throws InterruptedException 
