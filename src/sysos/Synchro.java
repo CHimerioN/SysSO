@@ -48,6 +48,7 @@ public class Synchro {
     }
     
     
+    
     public void TO_CRITICAL_SECTION_TAS(process p)  
     {
         
@@ -55,10 +56,16 @@ public class Synchro {
         {
              p.change_process_state(process_manager.status.WAITING); 
              System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
+            if (Main.S.qs.get(Main.T.find(p.PID).usrpri).size() < 2) {
+                Main.S.whichqs.set(Main.T.find(p.PID).usrpri, false);
+            }
+            Main.S.qs.get(Main.T.find(p.PID).usrpri).remove(Main.T.find(p.PID));
         }
         else{
             System.out.println(p.name +" GOT OFF CRITICAL SECTION");
              p.change_process_state(process_manager.status.READY);
+             Main.S.qs.get(Main.T.find(p.PID).usrpri).add(Main.Tfind(p.PID));
+Main.S.whichqs.set(Main.T.find(p.PID).usrpri, true);
         }
         
     }
