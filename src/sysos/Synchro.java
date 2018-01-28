@@ -51,12 +51,13 @@ public class Synchro {
     public void TO_CRITICAL_SECTION_TAS(process p)  
     {
         
-        System.out.println(nazwa+" GOT INSIDE CRITICAL SECTION");
         if(Test_and_Set(lock)==true)
         {
-             p.change_process_state(process_manager.status.WAITING);         
+             p.change_process_state(process_manager.status.WAITING); 
+             System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
         }
         else{
+            System.out.println(p.name +" GOT OFF CRITICAL SECTION");
              p.change_process_state(process_manager.status.READY);
         }
         

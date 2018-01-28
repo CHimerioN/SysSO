@@ -289,6 +289,20 @@ void exe()
 			con=Integer.toString(Main.S.runningProcess.D);
 		f.writeFile(roz, con);
 	} break;
+	case "OF":
+	{		
+		roz="";
+		roz=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=roz.length()+1;
+		f.openFile(roz);
+	} break;
+	case "ZF":
+	{
+		roz="";
+		roz=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=roz.length()+1;
+		f.closeFile(roz);
+	} break;
 	case "CP":
 	{
 		roz="";
@@ -296,6 +310,9 @@ void exe()
 		Main.S.runningProcess.counter+=roz.length()+1;
 		Main.S.runningProcess.fork(roz);
 		String naz=roz;
+		String d;
+		d=m.readUntilSpace(Main.S.runningProcess.counter);
+		Main.S.runningProcess.counter+=d.length()+1;
 		roz="";
 		roz=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=roz.length()+1;
@@ -312,7 +329,7 @@ void exe()
 		in.close();
 		String out= sb.toString();
 		int x = Main.T.find_name(naz);
-		Main.T.find(x).exec(out, roz+"txt", out.length(),Main.S.runningProcess.pri);
+		Main.T.find(x).exec(out, roz+".txt", out.length()+d.length(),Main.S.runningProcess.pri);
 	} break;
 	case "DP":
 	{
@@ -349,7 +366,7 @@ void exe()
 	{
 		int a=potoki.write(Main.S.runningProcess);
 		if(a==0)
-		System.out.println("Nie komunikatu do wyslania");
+		System.out.println("Nie ma komunikatu do wyslania");
 	} break;
 	case "RC":
 	{
@@ -367,14 +384,30 @@ void exe()
 		String rez=m.readUntilSpace(Main.S.runningProcess.counter);
 		Main.S.runningProcess.counter+=rez.length()+1;
 		if(rez.equals("R1"))
-			m.writeMemory(Integer.valueOf(roz), Integer.toString(Main.S.runningProcess.A).charAt(0));
-		if(rez.equals("R2"))
-			m.writeMemory(Integer.valueOf(roz), Integer.toString(Main.S.runningProcess.B).charAt(0));
-		if(rez.equals("R3"))
-			m.writeMemory(Integer.valueOf(roz), Integer.toString(Main.S.runningProcess.C).charAt(0));
-		if(rez.equals("R4"))
-			m.writeMemory(Integer.valueOf(roz), Integer.toString(Main.S.runningProcess.D).charAt(0));
-		if(rez.equals("MSG"))
+		{
+			String n=Integer.toString(Main.S.runningProcess.A);
+			for(int i=0;i<n.length();i++)
+			m.writeMemory(Integer.valueOf(roz)+i,n.charAt(i));
+		}
+		else if(rez.equals("R2"))
+		{
+			String n=Integer.toString(Main.S.runningProcess.B);
+			for(int i=0;i<n.length();i++)
+			m.writeMemory(Integer.valueOf(roz)+i,n.charAt(i));
+		}
+		else if(rez.equals("R3"))
+		{
+			String n=Integer.toString(Main.S.runningProcess.C);
+			for(int i=0;i<n.length();i++)
+			m.writeMemory(Integer.valueOf(roz)+i,n.charAt(i));
+		}
+		else if(rez.equals("R4"))
+		{
+			String n=Integer.toString(Main.S.runningProcess.D);
+			for(int i=0;i<n.length();i++)
+			m.writeMemory(Integer.valueOf(roz)+i,n.charAt(i));
+		}
+		else if(rez.equals("MSG"))
 		{
 			String msg = new String();
 			msg=Main.S.runningProcess.IO.toString();

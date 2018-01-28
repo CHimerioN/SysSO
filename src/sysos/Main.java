@@ -256,6 +256,7 @@ public class Main {
 				if (tab.length == 1) {
 					System.out.println("Rejestry: A|" + S.runningProcess.A + " B|" + S.runningProcess.B + " C|"
 							+ S.runningProcess.C + " D|" + S.runningProcess.D);
+					System.out.println("Licznik rozkazow: " + S.runningProcess.counter);
 				} else {
 					System.out.println("nieprawidlowe wywolanie komendy");
 				}
