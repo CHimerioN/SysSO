@@ -55,10 +55,10 @@ public class Synchro {
         if(Test_and_Set(lock)==true)
         {
              p.change_process_state(process_manager.status.WAITING); 
-            // System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
+             System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
         }
         else{
-            //System.out.println(p.name +" GOT OFF CRITICAL SECTION");
+            System.out.println(p.name +" GOT OFF CRITICAL SECTION");
             p.change_process_state(process_manager.status.READY);      
         }
     }
