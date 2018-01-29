@@ -5,15 +5,15 @@ import java.util.Scanner;
 import java.io.File;
 
 public class Main {
-
 	public static Memory M = new Memory();
 	public static process_manager T = new process_manager();
 	public static FileSystem F = new FileSystem();
 	public static int OBECNY_PROCES;
 	public static schedulerr S = new schedulerr();
 	public static plik1 P = new plik1();
-
+	
 	public static void main(String[] args) {
+		M.assign(T);
 		systemLoadLite();
 		T.init();
 		S.runningProcess = T.INIT;
