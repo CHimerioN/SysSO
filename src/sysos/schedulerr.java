@@ -8,7 +8,9 @@ import static sysos.process_manager.status.WAITING;
 
 public class schedulerr {
 	public int readyp;
-	public int x = 2;
+	private Boolean eh=false;
+	private Boolean eh2=false;
+	public int x = 1;
 	public ArrayList<Boolean> whichqs = new ArrayList<Boolean>();
 	public schedulerr() {
 		for(int i=0;i<128;i++){
@@ -55,7 +57,9 @@ public class schedulerr {
 	}
 	
 	private void runProcess(process_manager p) {
-		//clear_q();
+		//clear_q();s
+		eh=false;
+		eh2=false;
 		for(;readyp < Main.T.ready.size();readyp++) {
 			add_to_q(Main.T.ready.get(readyp));
 		}
@@ -63,11 +67,15 @@ public class schedulerr {
 		int i=0;
 		int y=0;
 		while(whichqs.get(i)==false) {							//szuka kolejki o najnizszym priorytecie
-			if(whichqs.get(i)==true) {
-				for(y=0; y<qs.get(i).size();y++) {
-					if(qs.get(i).get(y).s==READY) break;
+			if(whichqs.get(i+1)==true) {
+				eh2=true;
+				for(y=0; y<qs.get(i+1).size();y++) {
+					if(!qs.get(i+1).get(y).s.equals(WAITING)) {eh=true;break;}
 				}
 			}
+			
+			if(eh==true) {i++;break;}
+			if(eh2==true) {i++; eh2=false;}
 			i++;
 			if(i==127) return;
 		}
@@ -84,7 +92,7 @@ public class schedulerr {
             runProcess(p);
             return;
         }
-        if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoÄąâ€şci cpu procesu running i odkÄąâ€šada go do kolejki procesÄ‚Ĺ‚w
+        if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoĂ„Ä…Ă˘â‚¬Ĺźci cpu procesu running i odkĂ„Ä…Ă˘â‚¬Ĺˇada go do kolejki procesĂ„â€šÄąâ€šw
             if(!runningProcess.s.equals(WAITING))
         	runningProcess.change_process_state(READY);
             runningProcess.Lock=true;
