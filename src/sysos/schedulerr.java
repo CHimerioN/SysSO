@@ -60,16 +60,21 @@ public class schedulerr {
 		}
 		
 		int i=0;
+		int y=0;
 		while(whichqs.get(i)==false) {							//szuka kolejki o najnizszym priorytecie
-			if(whichqs.get(i)==true) break;
+			if(whichqs.get(i)==true) {
+				for(y=0; y<qs.get(i).size();y++) {
+					if(qs.get(i).get(y).s==READY) break;
+				}
+			}
 			i++;
 			if(i==127) return;
 		}
 																//ustawia pierwszy proces o najnizszym priorytecie jako running
-		runningProcess=qs.get(i).get(0);
+		runningProcess=qs.get(i).get(y);
 		runningProcess.change_process_state(ACTIVE);
 		runningProcess.Lock=false;
-		qs.get(i).remove(0);	
+		qs.get(i).remove(y);	
 		if(qs.get(i).size()<1) whichqs.set(i, false);
 	}
 
