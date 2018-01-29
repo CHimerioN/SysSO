@@ -26,7 +26,7 @@ public class Memory {
 	
 	//////////////////////////////// KOSNSTRUKTOR ////////////////////////////////
 	public Memory() { // konstruktor, inicjalizacja
-		T = Main.T;
+		//T = Main.T;
 		ram = new char[128];
 		for (int i = 0; i < ram.length; i++)
 			ram[i] = ' ';
