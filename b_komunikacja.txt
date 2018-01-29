@@ -1,0 +1,1 @@
+CP P4 p1.txt CC MO R1 10 WC R1 SC EX
