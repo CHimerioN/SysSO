@@ -15,7 +15,7 @@ public class interpreter {
 	}
 void exe()
 {
-	Main.S.check(Main.T);
+	if(Main.S.x==1){ Main.S.check(Main.T); }
 	String roz;
 	roz=m.readUntilSpace(Main.S.runningProcess.counter);
 	Main.S.runningProcess.counter+=roz.length()+1;
@@ -441,7 +441,7 @@ void exe()
 	}
 	default: break;
 	}
-	if(Main.S.x==2); {
+	if(Main.S.x==1){
 		if(Main.S.runningProcess!=Main.T.INIT)
 		Main.S.runningProcess.cpu+=60;
 		Main.S.divide_cpu();
