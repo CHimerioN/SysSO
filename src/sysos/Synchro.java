@@ -29,10 +29,10 @@ public class Synchro {
     {
         if(lock == true)
         {
-            System.out.println("INSIDE");
+            //System.out.println("INSIDE");
             return true;
         }
-        System.out.println("OUTSIDE");
+        //System.out.println("OUTSIDE");
         return false;
     }
     public boolean Compare_And_Swap(Boolean OLD_VALUE, boolean EXPECTED_VALUE, boolean NEW_VALUE)
@@ -40,10 +40,10 @@ public class Synchro {
         boolean TEMP = OLD_VALUE;
         if(OLD_VALUE==EXPECTED_VALUE)
         {
-            System.out.println("INSIDE LOOP");
+            //System.out.println("INSIDE LOOP");
             OLD_VALUE=NEW_VALUE;
         }
-        System.out.println("OUTSIDE LOOP");
+        //System.out.println("OUTSIDE LOOP");
         return TEMP;
     }
     
@@ -55,11 +55,11 @@ public class Synchro {
         if(Test_and_Set(lock)==true)
         {
              p.change_process_state(process_manager.status.WAITING); 
-             System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
+            // System.out.println(p.name +" GOT INSIDE CRITICAL SECTION");
         }
         else{
-            System.out.println(p.name +" GOT OFF CRITICAL SECTION");
-             p.change_process_state(process_manager.status.READY);      
+            //System.out.println(p.name +" GOT OFF CRITICAL SECTION");
+            p.change_process_state(process_manager.status.READY);      
         }
     }
     public void TO_CRITICAL_SECTION_CAS() throws InterruptedException 
