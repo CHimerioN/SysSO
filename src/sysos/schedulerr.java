@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import sysos.process_manager.process;
 import static sysos.process_manager.status.ACTIVE;
 import static sysos.process_manager.status.READY;
+import static sysos.process_manager.status.WAITING;
 
 public class schedulerr {
 	public int readyp;
@@ -84,7 +85,8 @@ public class schedulerr {
             return;
         }
         if(runningProcess != null || runningProcess.PID!=0) {                        //zmienia wartoÄąâ€şci cpu procesu running i odkÄąâ€šada go do kolejki procesÄ‚Ĺ‚w
-            runningProcess.change_process_state(READY);
+            if(!runningProcess.s.equals(WAITING))
+        	runningProcess.change_process_state(READY);
             runningProcess.Lock=true;
             change_q();
             runProcess(p);
