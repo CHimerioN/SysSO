@@ -254,6 +254,7 @@ public class Main {
 
 			else if (tab[0].equals("SREG")) {
 				if (tab.length == 1) {
+					System.out.println("Aktualny proces: " + S.runningProcess.name);
 					System.out.println("Rejestry: A|" + S.runningProcess.A + " B|" + S.runningProcess.B + " C|"
 							+ S.runningProcess.C + " D|" + S.runningProcess.D);
 					System.out.println("Licznik rozkazow: " + S.runningProcess.counter);

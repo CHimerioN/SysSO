@@ -374,8 +374,10 @@ void exe()
 		if(a==-1)
 			Main.S.runningProcess.counter-=3;
 		if(a==0)
+		{
 			System.out.println("Potok pusty");
-		 Main.S.runningProcess.counter-=3;
+			Main.S.runningProcess.counter-=3;
+		}
 	} break;
 	case "MS" :
 	{

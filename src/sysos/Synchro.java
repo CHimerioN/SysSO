@@ -60,8 +60,8 @@ public class Synchro {
         else{
             System.out.println(p.name +" GOT OFF CRITICAL SECTION");
              p.change_process_state(process_manager.status.READY);      
-       
-    
+        }
+    }
     public void TO_CRITICAL_SECTION_CAS() throws InterruptedException 
     {
         System.out.println(nazwa+" GOT INSIDE CRITICAL SECTION");
