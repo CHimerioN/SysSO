@@ -19,6 +19,11 @@ public class Memory {
 	public int SWAP_END = 1; // koniec pliku wymiany
 	private process_manager T; // wskaznik do process managera
 
+	
+	public void assign(process_manager in) {
+		T = in;
+	}
+	
 	//////////////////////////////// KOSNSTRUKTOR ////////////////////////////////
 	public Memory() { // konstruktor, inicjalizacja
 		T = Main.T;
@@ -219,7 +224,7 @@ public class Memory {
 		}
 	}
 
-	public char readMemory(int l_addr) { // zwraca char z pamiÄ‚Ĺžci
+	public char readMemory(int l_addr) { // zwraca char z pamiĂ„â€šÄąĹľci
 		process current = Main.S.runningProcess;
 
 		if (l_addr > getProgramSize(current)) {
@@ -238,6 +243,7 @@ public class Memory {
 			int victim = getVictim();
 			int f = ffa.checkFrame(victim);
 			process p = T.find(f);
+
 			p.pageDisable(victim);
 			putPageToSwap(victim, p.swapFileBeginning * 16 + strona);
 			ffa.releaseFrame(victim);
@@ -250,7 +256,7 @@ public class Memory {
 		}
 		current.pageEnable(strona, free); ///////////
 		ramka = Main.S.runningProcess.pageCheck(strona);
-		process test = Main.S.runningProcess;
+	//	process test = Main.S.runningProcess;
 		ffa.occupyFrame(ramka, current.PID);
 		updateStack(ramka);
 
