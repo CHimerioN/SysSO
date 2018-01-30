@@ -106,13 +106,13 @@ public class potoki {
                 }
             }                   
                 if (ref.ojciec_do_syn) {
-                    s1.lock = true;//dla ojca
+                    s1.lock = false;//dla ojca
                     s2.lock = false;//dla syna
                     s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
                     s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł odczytać info     
                 } else {//odwrotny kierunek komunikacji z syna->ojca;syn pisze ojciec czyta
                     s1.lock = false;
-                    s2.lock = true;
+                    s2.lock = false;
                     s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
                     s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł odczytać info     
                 }
