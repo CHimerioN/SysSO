@@ -51,18 +51,7 @@ public class potoki {
 				p.IO.offer(ref.myQueue.poll());
 				ref.readbytes++;
 				ref.qfreespace++;
-                }
-                if (ref.ojciec_do_syn) {
-                    s1.lock = true;
-                    s2.lock = false;
-                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy syna
-                    s2.TO_CRITICAL_SECTION_TAS(p.previous);//odwieszamy ojca by mógł zapisac info     
-                } else {//odwrotny kierunek komunikacji z syna->ojca
-                    s1.lock = true;
-                    s2.lock = false;
-                    s1.TO_CRITICAL_SECTION_TAS(p);//zawieszamy ojca
-                    s2.TO_CRITICAL_SECTION_TAS(p.next);//odwieszamy syna by mógł zapisac info     
-                }
+                }               
                 return 1;//zwracamy 1 po odczytaniu tekstu
             }
 	}
